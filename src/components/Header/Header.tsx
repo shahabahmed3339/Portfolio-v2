@@ -1,9 +1,14 @@
-import { Container } from './styles'
-import { BrowserRouter as Router } from 'react-router-dom'
-import { NavHashLink, HashLink } from 'react-router-hash-link'
-import { useState } from 'react'
-import Resume from '../../assets/Shahab_Ahmed_Resume.pdf'
-export function Header() {
+import { Container } from './styles';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { NavHashLink, HashLink } from 'react-router-hash-link';
+import { useState } from 'react';
+import Resume from '../../assets/Shahab_Ahmed_Resume.pdf';
+
+interface HeaderProps {
+  name: string;
+}
+
+export function Header({ name }: HeaderProps) {
   const [isActive, setActive] = useState(false)
   function toggleTheme() {
     let html = document.getElementsByTagName('html')[0]
@@ -16,8 +21,7 @@ export function Header() {
     <Container className="header-fixed">
       <Router>
         <HashLink smooth to="#home" className="logo">
-          <span>{"<Shahab "}</span>
-          <span>{" Ahmed />"}</span>
+          <span>{"<" + name + " />"}</span>
         </HashLink>
         <input
           onChange={toggleTheme}

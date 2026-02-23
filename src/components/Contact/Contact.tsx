@@ -1,10 +1,12 @@
 import { Container } from "./styles";
-import emailIcon from "../../assets/email-icon.svg";
-import phoneIcon from "../../assets/phone-icon.svg"
 import { Form } from "../Form/Form";
 
+interface ContactProps {
+  head: any;
+}
 
-export function Contact() {
+
+export function Contact({ head }: ContactProps) {
 
   return (
     <Container id="contact">
@@ -15,12 +17,12 @@ export function Contact() {
       </header>
       <div className="contacts">
         <div>
-          <a href="mailto:shahabahmed3339@gmail.com"><img src={emailIcon} alt="Email" /></a>
-          <a href="mailto:shahabahmed3339@gmail.com">shahabahmed3339@gmail.com</a>
+          <a href={`mailto:${head.email}`}><img src="/assets/email-icon.svg" alt="Email" /></a>
+          <a href={`mailto:${head.email}`}>{head.email}</a>
         </div>
         <div>
-          <a href="tel:+919630576848"><img src={phoneIcon} alt="Phone No" /></a>
-          <a href="tel:+919630576848">(+92) 315 1586289</a>
+          <a href={`tel:${head.phone}`}><img src="/assets/phone-icon.svg" alt="Phone No" /></a>
+          <a href={`tel:${head.phone}`}>{head.phone}</a>
         </div>
       </div>
       <Form></Form>

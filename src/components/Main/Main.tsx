@@ -4,20 +4,12 @@ import { Hero } from "../Hero/Hero";
 import { About } from "../About/About";
 import { Contact } from "../Contact/Contact";
 import { Project } from "../Project/Project";
-import pythonIcon from "../../assets/python.svg"
-import tailwindIcon from "../../assets/tailwind-icon.svg"
-import wordpressIcon from "../../assets/wordpress.svg";
-import htmlIcon from "../../assets/html-icon.svg";
-import cssIcon from "../../assets/css-icon.svg";
-import jsIcon from "../../assets/js-icon.svg";
-import nodeIcon from "../../assets/node-icon.svg";
-import angularIcon from "../../assets/angular-icon.svg"
-import reactIcon from "../../assets/react-icon.svg";
-import typescriptIcon from "../../assets/typescript-icon.svg";
-import mongoIcon from "../../assets/mongodb-icon.svg";
-import boostrapIcon from "../../assets/bootstrap-icon.svg";
 
-export function Main() {
+interface MainProps {
+  data: any;
+}
+
+export function Main({ data }: MainProps) {
   return (
     <Container>
       <Particles
@@ -148,69 +140,11 @@ export function Main() {
                 "value": "*",
                 "weight": "400"
               },
-              "image": [
-                {
-                  "src": boostrapIcon,
-                  "width": 20,
-                  "height": 20
-                },
-                {
-                  "src": cssIcon,
-                  "width": 20,
-                  "height": 20
-                },
-                {
-                  "src": htmlIcon,
-                  "width": 20,
-                  "height": 20
-                },
-                {
-                  "src": jsIcon,
-                  "width": 20,
-                  "height": 20
-                },
-                {
-                  "src": typescriptIcon,
-                  "width": 20,
-                  "height": 20
-                },
-                {
-                  "src": reactIcon,
-                  "width": 20,
-                  "height": 20
-                },
-                {
-                  "src": angularIcon,
-                  "width": 20,
-                  "height": 20
-                },
-                {
-                  "src": tailwindIcon,
-                  "width": 20,
-                  "height": 20
-                },
-                {
-                  "src": nodeIcon,
-                  "width": 20,
-                  "height": 20
-                },
-                {
-                  "src": mongoIcon,
-                  "width": 20,
-                  "height": 20
-                },
-                {
-                  "src": pythonIcon,
-                  "width": 20,
-                  "height": 20
-                },
-                {
-                  "src": wordpressIcon,
-                  "width": 20,
-                  "height": 20
-                }
-              ],
-
+              "image": data.technologies.map((tech: any) => ({
+                "src": tech.icon,
+                "width": 20,
+                "height": 20
+              })),
               "polygon": {
                 "sides": 5
               },
@@ -251,10 +185,10 @@ export function Main() {
           }
         }}
       />
-      <Hero></Hero>
-      <About></About>
+      <Hero head={data.head}></Hero>
+      <About data={data}></About>
       <Project></Project>
-      <Contact></Contact>
+      <Contact head={data.head}></Contact>
     </Container>
   );
 }

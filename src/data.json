@@ -1,0 +1,213 @@
+{
+    "backgroundVideo": "/assets/background-video.mov",
+    "head": {
+        "name": "Shahab Ahmed",
+        "title": "Software Engineer",
+        "totalExperience": 5,
+        "profile": "/assets/Profile.png",
+        "phone": "+923151586289",
+        "email": "shahabahmed3339@gmail.com",
+        "linkedIn": "its-shahab-ahmed",
+        "github": "shahabahmed3339",
+        "links": [
+            {
+                "title": "LinkedIn",
+                "url": "https://www.linkedin.com/in/its-shahab-ahmed",
+                "icon": "assets/linkedin.svg"
+            },
+            {
+                "title": "GitHub",
+                "url": "https://github.com/shahabahmed3339/",
+                "icon": "assets/github.svg"
+            },
+            {
+                "title": "WhatsApp",
+                "url": "https://api.whatsapp.com/send/?phone=%2B923151586289&text=Hello+Shahab+I+found+your+contact+through+portfolio+site.%0A%0A",
+                "icon": "assets/whatsapp.svg"
+            },
+            {
+                "title": "Gmail",
+                "url": "mailto:shahabahmed3339@gmail.com",
+                "icon": "assets/gmail.svg"
+            }
+        ]
+    },
+    "about": [
+        "I’m Shahab Ahmed, a Software Engineer with over 5 years of experience specializing in Angular and full-stack development using the MEAN/MERN stack.",
+        "I have worked on healthcare systems, ERP platforms, and compliance applications, delivering scalable, maintainable, and user-focused solutions.",
+        "My expertise includes Angular, React, Node.js, Python (Flask & Django), and modern databases, with strong experience in modular architecture, API integration, and production support.",
+        "I hold a Master’s degree in Computer Science and am passionate about building high-quality software that solves real-world problems efficiently."
+    ],
+    "technologies": [
+        {
+            "title": "Python",
+            "icon": "/assets/python.svg"
+        },
+        {
+            "title": "NodeJS",
+            "icon": "/assets/node-icon.svg"
+        },
+        {
+            "title": "JavaScript",
+            "icon": "/assets/js-icon.svg"
+        },
+        {
+            "title": "Typescript",
+            "icon": "/assets/typescript-icon.svg"
+        },
+        {
+            "title": "React",
+            "icon": "/assets/react-icon.svg"
+        },
+        {
+            "title": "Angular",
+            "icon": "/assets/angular-icon.svg"
+        },
+        {
+            "title": "MongoDB",
+            "icon": "/assets/mongodb-icon.svg"
+        },
+        {
+            "title": "PostgreSQL",
+            "icon": "/assets/postgresql.svg"
+        },
+        {
+            "title": "Wordpress",
+            "icon": "/assets/wordpress.svg"
+        },
+        {
+            "title": "HTML",
+            "icon": "/assets/html-icon.svg"
+        },
+        {
+            "title": "CSS",
+            "icon": "/assets/css-icon.svg"
+        },
+        {
+            "title": "Bootstrap",
+            "icon": "/assets/bootstrap-icon.svg"
+        },
+        {
+            "title": "Tailwind",
+            "icon": "/assets/tailwind-icon.svg"
+        }
+    ],
+    "experience": [
+        {
+            "image": "/assets/dn.jpg",
+            "title": "Senior Software engineer",
+            "company": "Binary Tech (DocNow EHR)",
+            "description": "Healthcare Software Support & Maintenance Specialist",
+            "location": "Lahore, Pakistan",
+            "start": "Mar 2024",
+            "end": "Feb 2026",
+            "accomplishments": [
+                "Developed a medical software system using the MEAN stack.",
+                "Standardized modules to improve efficiency and readability.",
+                "Successfully completed sprint tasks within assigned timelines.",
+                "Provided real-time issue support for customers."
+            ]
+        },
+        {
+            "image": "/assets/lps.png",
+            "title": "Associate Software Engineer",
+            "company": "Logic Powered Solutions",
+            "description": "Software and IT Solutions",
+            "location": "Islamabad, Pakistan",
+            "start": "Dec 2021",
+            "end": "Mar 2024",
+            "accomplishments": [
+                "MEAN Stack developer building and maintaining scalable, reliable systems.",
+                "Developing a multi-module ERP system (HR, Accounts, Finance, Ledgers, etc.).",
+                "Developing Power BI solutions with clean, efficient, and maintainable code.",
+                "Troubleshooting software defects and supporting production environments."
+            ]
+        },
+        {
+            "image": "/assets/qc-360.png",
+            "title": "Junior Full Stack Developer",
+            "company": "Quality Compliance 360",
+            "description": "ISO Quality Compliance",
+            "location": "Islamabad, Pakistan",
+            "start": "Feb 2021",
+            "end": "Dec 2021",
+            "accomplishments": [
+                "Developed a MERN stack web app for ISO-compliant risk assessments.",
+                "Developed a scalable HR management and recruitment system.",
+                "Built a real-time attendance system in Django using machine learning."
+            ]
+        }
+    ],
+    "education": [
+        {
+            "image": "/assets/hitec.png",
+            "title": "Masters of Science in Computer Science",
+            "institute": "HITEC University",
+            "location": "Taxila, Pakistan",
+            "start": "Sep 2020",
+            "end": "Jan 2023",
+            "cgpa": "3.80 / 4.00",
+            "thesis": "Human Action Recognition: A Fused Framework of Pre -trained DarkNet -19 and SqueezeNet Deep Models"
+        },
+        {
+            "image": "/assets/hitec.png",
+            "title": "Bachelors of Science in Computer Engineering",
+            "institute": "HITEC University",
+            "location": "Taxila, Pakistan",
+            "start": "Sep 2016",
+            "end": "Jul 2020",
+            "cgpa": "3.62 / 4.00",
+            "thesis": "Implementation of Correlation Filters on DSP Processor for Real-time Applications"
+        }
+    ],
+    "projects": [
+        {
+            "title": "Marketplace",
+            "description": "E-commerce web app",
+            "image": "/assets/project-1.png"
+        },
+        {
+            "title": "Navigator",
+            "description": "Navigation app design",
+            "image": "/assets/project-2.png"
+        }
+    ],
+    "skills": [
+        "MEAN Stack",
+        "MERN Stack",
+        "Angular",
+        "React.js",
+        "Next.js",
+        "Nest.js",
+        "Node.js",
+        "Python",
+        "Flask",
+        "Django",
+        "TypeScript",
+        "JavaScript",
+        "MongoDB",
+        "PostgreSQL",
+        "MySQL",
+        "PowerBi",
+        "Git",
+        "HTML",
+        "Tailwind CSS",
+        "Bootstrap CSS",
+        "CSS",
+        "Teamwork",
+        "Problem Solving",
+        "Customer Support",
+        "Critical Thinking"
+    ],
+    "interests": [
+        "Basketball",
+        "Badminton",
+        "Photography",
+        "Coding"
+    ],
+    "languages": [
+        "English - Professional",
+        "Urdu - Native",
+        "Punjabi - Native"
+    ]
+}
