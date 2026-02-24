@@ -165,7 +165,6 @@
         {
             "title": "Flash Deal API - Assessment",
             "description": "A production-ready stock reservation system designed to prevent overselling during high-concurrency flash sales.",
-            "image": "/assets/flash-deal.jpg",
             "techList": [
                 "Node.js",
                 "Express.js",
@@ -178,7 +177,6 @@
         {
             "title": "Simula React SDK - Assessment",
             "description": "Production-ready Native Ad SDK for React / Next.js applications.",
-            "image": "/assets/flash-deal.jpg",
             "techList": [
                 "React.js",
                 "Next.js",
@@ -189,12 +187,113 @@
         {
             "title": "Simula Flutter SDK - Assessment",
             "description": "Production-ready Native Ad SDK for Flutter applications.",
-            "image": "/assets/flash-deal.jpg",
             "techList": [
                 "Flutter",
                 "Dart"
             ],
             "github": "https://github.com/shahabahmed3339/simula-flutter-sdk"
+        },
+        {
+            "title": "Line Match",
+            "description": "Simple browser-based demos for matching and highlighting lines/patterns in text.",
+            "techList": [
+                "HTML",
+                "Javascript"
+            ],
+            "github": "https://github.com/shahabahmed3339/line-match"
+        },
+        {
+            "title": "Map Based Conversation",
+            "description": "A funny map-based conversation app where users can chat and share their location on a map.",
+            "techList": [
+                "HTML",
+                "Javascript",
+                "Wordpress",
+                "PHP"
+            ],
+            "github": "https://github.com/shahabahmed3339/map-project"
+        },
+        {
+            "title": "Video Play Module",
+            "description": "Lightweight Python project for selecting and playing local videos via simple menu scripts.",
+            "techList": [
+                "Python",
+                "Raspberry Pi"
+            ],
+            "github": "https://github.com/shahabahmed3339/videoPlayModule"
+        },
+        {
+            "title": "Risk Management",
+            "description": "Lightweight risk management web app (React frontend + Express/MongoDB backend).",
+            "techList": [
+                "HTML",
+                "CSS",
+                "Javascript",
+                "React.js",
+                "Node.js",
+                "Express.js",
+                "MongoDB"
+            ],
+            "github": "https://github.com/shahabahmed3339/riskmanagement"
+        },
+        {
+            "title": "KBL RMS",
+            "description": "Lightweight Risk Management System (RMS) — fullstack MERN-style app with a React client and an Express/MongoDB server.",
+            "techList": [
+                "HTML",
+                "CSS",
+                "Javascript",
+                "React.js",
+                "Node.js",
+                "Express.js",
+                "MongoDB"
+            ],
+            "github": "https://github.com/shahabahmed3339/kbl-rms"
+        },
+        {
+            "title": "Flask App",
+            "description": "Minimal Flask app for webcam streaming and related frontend assets with React frontend.",
+            "techList": [
+                "React.js",
+                "Flask",
+                "Python",
+                "HTML",
+                "CSS"
+            ],
+            "github": "https://github.com/shahabahmed3339/Flask-Project"
+        },
+        {
+            "title": "AMS - Automated Monitoring System",
+            "description": "A comprehensive face detection and recognition system built with Python, featuring multiple deep learning models and a Django web application for business use.",
+            "techList": [
+                "Python",
+                "Django",
+                "OpenCV",
+                "MongoDB"
+            ],
+            "github": "https://github.com/shahabahmed3339/AMS"
+        },
+        {
+            "title": "Portfolio",
+            "description": "A responsive portfolio website built with React + Vite and Tailwind CSS.",
+            "techList": [
+                "React.js",
+                "Vite",
+                "Tailwind CSS",
+                "JavaScript"
+            ],
+            "github": "https://github.com/shahabahmed3339/Portfolio"
+        },
+        {
+            "title": "Portfolio-v2",
+            "description": "A responsive portfolio website built with React and CSS, showcasing my projects, experience, and skills in a modern design.",
+            "techList": [
+                "React.js",
+                "HTML",
+                "CSS",
+                "JavaScript"
+            ],
+            "github": "https://github.com/shahabahmed3339/Portfolio-v2"
         }
     ],
     "skills": [
