@@ -1,5 +1,6 @@
 {
     "backgroundVideo": "/assets/background-video.mov",
+    "resume": "/assets/Shahab_Ahmed_Resume.pdf",
     "head": {
         "name": "Shahab Ahmed",
         "title": "Software Engineer",
@@ -162,14 +163,16 @@
     ],
     "projects": [
         {
-            "title": "Marketplace",
-            "description": "E-commerce web app",
-            "image": "/assets/project-1.png"
-        },
-        {
-            "title": "Navigator",
-            "description": "Navigation app design",
-            "image": "/assets/project-2.png"
+            "title": "Flash Deal API",
+            "description": "A production-ready stock reservation system designed to prevent overselling during high-concurrency flash sales.",
+            "image": "/assets/flash-deal.jpg",
+            "techList": [
+                "Node.js",
+                "Express.js",
+                "MongoDB",
+                "Redis"
+            ],
+            "github": "https://github.com/shahabahmed3339/flash-deal-api"
         }
     ],
     "skills": [

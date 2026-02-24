@@ -35,7 +35,7 @@ export function Hero({ head }: HeroProps) {
       </div>
       <div className="hero-image">
         <ScrollAnimation animateIn="fadeInRight" delay={1 * 1000}>
-          <img src="/assets/illustration.svg" alt="Ilustração" />
+          <img src="/assets/developer.png" alt="Developer" />
         </ScrollAnimation>
       </div>
     </Container>

@@ -10,7 +10,7 @@ function App() {
   return (
     <>
       <GlobalStyle></GlobalStyle>
-      <Header name={data.head.name}></Header>
+      <Header name={data.head.name} resume={data.resume}></Header>
       <Main data={data}></Main>
       <Analytics />
       <Footer links={data.head.links}></Footer>

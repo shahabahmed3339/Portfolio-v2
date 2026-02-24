@@ -187,7 +187,7 @@ export function Main({ data }: MainProps) {
       />
       <Hero head={data.head}></Hero>
       <About data={data}></About>
-      <Project></Project>
+      <Project projects={data.projects}></Project>
       <Contact head={data.head}></Contact>
     </Container>
   );

@@ -2,13 +2,13 @@ import { Container } from './styles';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { NavHashLink, HashLink } from 'react-router-hash-link';
 import { useState } from 'react';
-import Resume from '../../assets/Shahab_Ahmed_Resume.pdf';
 
 interface HeaderProps {
   name: string;
+  resume: string;
 }
 
-export function Header({ name }: HeaderProps) {
+export function Header({ name, resume }: HeaderProps) {
   const [isActive, setActive] = useState(false)
   function toggleTheme() {
     let html = document.getElementsByTagName('html')[0]
@@ -44,7 +44,7 @@ export function Header({ name }: HeaderProps) {
           <NavHashLink smooth to="#contact" onClick={closeMenu}>
             Contact
           </NavHashLink>
-          <a href={Resume} download className="button">
+          <a href={resume} download className="button">
             Resume
           </a>
         </nav>
