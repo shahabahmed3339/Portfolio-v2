@@ -29,12 +29,12 @@ export const Container = styled.section`
     // border-bottom: 0.2rem solid var(--blue);
     font-size :3rem;
     margin-top: 0rem;
-    color: var(--green);
+    color: var(--natureBlue);
   }
 
   h3{
     margin-top: 2rem;
-    color: var(--green);
+    color: var(--natureBlue);
   }
 
   p{

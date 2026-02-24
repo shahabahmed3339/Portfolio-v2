@@ -11,7 +11,7 @@ export const Container = styled.section`
       font-size: 4rem;
     }
     p{
-      color: var(--green);
+      color: var(--natureBlue);
       font-weight: 500;
     }
   }
@@ -30,7 +30,7 @@ export const Container = styled.section`
       width: 50%;
       max-width: 30rem;
       gap: 2rem;
-      background-color: var(--green);
+      background-color: var(--natureBlue);
       border-radius: 1.4rem;
       padding: 1.6rem 2.8rem;
       transition: background-color 0.25s;
