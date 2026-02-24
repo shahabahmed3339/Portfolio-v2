@@ -4,7 +4,7 @@ export const GlobalStyle = createGlobalStyle`
   :root{
     --pink: #E31F71;
     --black: #212121;
-    --green: #23ce6b;
+    --natureBlue: #4B8BBE;
     --blue: #016fb9;
     scroll-padding-top: 10rem;
 
@@ -53,6 +53,72 @@ export const GlobalStyle = createGlobalStyle`
         }
       }
 
+      #about h2{
+        color: var(--pink);
+      }
+
+      #about h3{
+        color: var(--pink);
+      }
+
+      #contact header{
+        p{
+          color: var(--pink);
+        }
+      }
+
+      #contact .contacts{
+        div{
+          background-color: var(--pink);
+        &:hover{
+          background-color: var(--natureBlue);
+        }
+        }
+      }
+
+      header label {
+        background-color: var(--pink);
+      }
+
+      @media (max-width: 960px){
+          header nav {
+            background-color: var(--pink);
+            a.button{
+              background-color: var(--natureBlue);
+            }
+          }
+        }
+
+      #home .hero-text{
+        h3{
+          color:var(--pink);
+        }
+      }
+
+      #project .projects {
+        .project{
+          background-color: #FAF9F6;
+          color: var(--black);
+          &:hover{
+            transform: translateY(-5px);
+            background-color: var(--pink);
+
+          p{
+            a{
+              border-bottom: 1px solid var(--pink);
+              &:hover{
+                color: var(--pink);
+              }
+            }
+          }
+          }
+        }
+      }
+
+      button, .button{
+        background-color: var(--pink);
+      }
+
     }
   }
 
@@ -92,7 +158,7 @@ export const GlobalStyle = createGlobalStyle`
   button, .button{
     border: none;
     cursor: pointer;
-    background-color: var(--green);
+    background-color: var(--natureBlue);
     color: #FFFF;
     border-radius: 2rem;
     font-weight: 500;
@@ -111,8 +177,5 @@ export const GlobalStyle = createGlobalStyle`
   .logo{
     font-size: 3rem;
     color: #FFFF;
-    // &::first-letter{
-    //   color: var(--green);
-    // }
   }
 `
