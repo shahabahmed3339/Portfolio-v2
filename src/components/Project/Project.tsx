@@ -13,10 +13,6 @@ export function Project({ projects }: ProjectProps) {
         {projects.map((project: any) => (
           <ScrollAnimation key={project.title} animateIn="flipInX">
             <div className="project">
-              <div
-                className="project-bg"
-                style={{ backgroundImage: `url(${project.image})` }}
-              />
               <header>
                 <svg width="50" xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 24 24" fill="none" stroke="#23ce6b" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                   <title>Folder</title>

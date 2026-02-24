@@ -163,16 +163,38 @@
     ],
     "projects": [
         {
-            "title": "Flash Deal API",
+            "title": "Flash Deal API - Assessment",
             "description": "A production-ready stock reservation system designed to prevent overselling during high-concurrency flash sales.",
             "image": "/assets/flash-deal.jpg",
             "techList": [
                 "Node.js",
                 "Express.js",
+                "Javascript",
                 "MongoDB",
                 "Redis"
             ],
             "github": "https://github.com/shahabahmed3339/flash-deal-api"
+        },
+        {
+            "title": "Simula React SDK - Assessment",
+            "description": "Production-ready Native Ad SDK for React / Next.js applications.",
+            "image": "/assets/flash-deal.jpg",
+            "techList": [
+                "React.js",
+                "Next.js",
+                "Typescript"
+            ],
+            "github": "https://github.com/shahabahmed3339/simula-react-sdk"
+        },
+        {
+            "title": "Simula Flutter SDK - Assessment",
+            "description": "Production-ready Native Ad SDK for Flutter applications.",
+            "image": "/assets/flash-deal.jpg",
+            "techList": [
+                "Flutter",
+                "Dart"
+            ],
+            "github": "https://github.com/shahabahmed3339/simula-flutter-sdk"
         }
     ],
     "skills": [
