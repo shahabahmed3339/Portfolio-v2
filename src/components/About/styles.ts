@@ -70,18 +70,21 @@ export const Container = styled.section`
         &:hover{
           filter: grayscale(0);
         }
+      }
     }
   }
 
   @media (max-width: 960px){
-    display: block;
+    grid-template-columns: 1fr;
     text-align: center;
     
     .hard-skills{
       justify-content: center;
     }
     .about-image{
+      order: -1;
       display: flex;
+      justify-content: center;
       max-width: 100%;
       img{
         margin-top: 2rem;
@@ -91,6 +94,7 @@ export const Container = styled.section`
         &:hover{
           filter: grayscale(0);
         }
+      }
     }
     
     
