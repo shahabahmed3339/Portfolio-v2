@@ -70,9 +70,6 @@ export const GlobalStyle = createGlobalStyle`
       #contact .contacts{
         div{
           background-color: var(--pink);
-        &:hover{
-          background-color: var(--natureBlue);
-        }
         }
       }
 
@@ -80,11 +77,20 @@ export const GlobalStyle = createGlobalStyle`
         background-color: var(--pink);
       }
 
+      header nav{
+        a.button{
+          color: #FFFF;
+        }
+      }
+
       @media (max-width: 960px){
           header nav {
             background-color: var(--pink);
             a.button{
               background-color: var(--natureBlue);
+            }
+            a.active{
+              color: #FFFF;
             }
           }
         }
@@ -169,7 +175,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   button:disabled, .button:disabled{
-    filter: brightness(0.8);
+    filter: brightness(0.6);
     cursor: not-allowed;
   }
 

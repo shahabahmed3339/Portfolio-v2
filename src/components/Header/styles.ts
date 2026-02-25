@@ -34,7 +34,7 @@ export const Container = styled.header`
       }
 
       &:hover{
-        filter: brightness(0.6);
+        filter: brightness(0.8);
       }
     }
 
@@ -169,6 +169,7 @@ export const Container = styled.header`
 
       a.button{
         background-color: var(--pink);
+        color: #FFF;
       }
 
       &.active{

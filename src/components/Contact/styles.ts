@@ -38,14 +38,11 @@ export const Container = styled.section`
         width: 4rem;
       }
       a{
-        color: var(--black);
+        color: #FFF;
         font-weight: 500;
       }
       &:hover{
-        background-color: var(--pink);
-        a{
-          color: #FFF;
-        }
+        filter: brightness(0.8);
       }
     }
   }
