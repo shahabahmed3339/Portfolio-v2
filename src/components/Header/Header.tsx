@@ -30,7 +30,7 @@ export function Header({ name, resume }: HeaderProps) {
           id="switch"
           name="mode"
         />
-        <label htmlFor="switch">Toggle</label>
+        <label htmlFor="switch" title="Light/Dark Mode">Toggle</label>
         <nav className={isActive ? 'active' : ''}>
           <NavHashLink smooth to="#home" onClick={closeMenu}>
             Home
@@ -44,7 +44,7 @@ export function Header({ name, resume }: HeaderProps) {
           <NavHashLink smooth to="#contact" onClick={closeMenu}>
             Contact
           </NavHashLink>
-          <a href={resume} download className="button">
+          <a href={resume} download className="button" title="Download Resume">
             Resume
           </a>
         </nav>
