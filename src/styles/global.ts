@@ -103,7 +103,7 @@ export const GlobalStyle = createGlobalStyle`
 
       #project .projects {
         .project{
-          background-color: #FAF9F6;
+          background-color: #FFF;
           color: var(--black);
           &:hover{
             transform: translateY(-5px);
