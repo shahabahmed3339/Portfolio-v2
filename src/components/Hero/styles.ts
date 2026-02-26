@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.section`
-  padding-top: 15%;
+  padding-top: 160px;
   display: flex;
   justify-content: space-between;
   gap: 8rem;
@@ -54,7 +54,7 @@ export const Container = styled.section`
 
   @media(max-width: 960px){
     display: block;
-    margin-top: 15%;
+    text-align: center;
     .hero-text{
 
       h1{
@@ -65,12 +65,5 @@ export const Container = styled.section`
     .hero-image{
       display: none;
     }
-  }
-
-  @media(max-width: 600px){
-    margin-top: 35%;
-  }
-  @media(max-width: 480px){
-    margin-top: 45%;
   }
 `
