@@ -49,6 +49,10 @@
             "icon": "/assets/node-icon.svg"
         },
         {
+            "title": "NestJS",
+            "icon": "/assets/nestjs.svg"
+        },
+        {
             "title": "JavaScript",
             "icon": "/assets/js-icon.svg"
         },
@@ -73,6 +77,14 @@
             "icon": "/assets/postgresql.svg"
         },
         {
+            "title": "Swagger",
+            "icon": "/assets/swagger.svg"
+        },
+        {
+            "title": "Redis",
+            "icon": "/assets/redis.svg"
+        },
+        {
             "title": "Wordpress",
             "icon": "/assets/wordpress.svg"
         },
@@ -94,6 +106,22 @@
         }
     ],
     "experience": [
+        {
+            "image": "/assets/tdm.jpg",
+            "title": "Team Lead",
+            "company": "The Digital Men",
+            "description": "Business Consulting and Services",
+            "location": "Lahore, Pakistan",
+            "start": "Mar 2026",
+            "end": "Aug 2026",
+            "accomplishments": [
+                "Led a team of up to 4 members, overseeing the design, planning, and execution of project requirements.",
+                "Developed a law-related app using NestJS and documented APIs.",
+                "Implemented Row-Level Security (RLS) in PostgreSQL for enhanced data security.",
+                "Implemented Redis for server-side caching.",
+                "Optimized application performance, enhanced efficiency, and improved overall system consistency."
+            ]
+        },
         {
             "image": "/assets/dn.jpg",
             "title": "Senior Software engineer",
