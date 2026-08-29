@@ -1,13 +1,13 @@
 
 const SECTION_LABELS = {
-  about: "Professional Summary",
-  experience: "Professional Experience",
-  education: "Education",
-  projects: "Selected Projects",
-  technologies: "Technical Skills",
-  skills: "Core Competencies",
-  languages: "Languages",
-  interests: "Interests",
+    about: "Professional Summary",
+    experience: "Professional Experience",
+    education: "Education",
+    projects: "Selected Projects",
+    technologies: "Technical Skills",
+    skills: "Core Competencies",
+    languages: "Languages",
+    interests: "Interests",
 };
 
 const isPresent = (value) => value !== undefined && value !== null && (typeof value !== "string" || value.trim()) && (!Array.isArray(value) || value.length);
@@ -139,10 +139,11 @@ export async function exportResumePdf(resumeData) {
     }
     [
         [SECTION_LABELS.technologies, technologies.map((item) => typeof item === "object" ? item.title : item)],
-        [SECTION_LABELS.skills, skills], [SECTION_LABELS.languages, languages], [SECTION_LABELS.interests, interests],
+        [SECTION_LABELS.skills, skills], [SECTION_LABELS.interests, interests], [SECTION_LABELS.languages, languages],
     ].forEach(([title, items]) => {
         const text = items.filter(isPresent).join(", ");
         if (text) { section(title); write(text); }
     });
+    if (head.portfolio) { section("Portfolio"); write(head.portfolio); }
     pdf.save(`${(head.name || "Resume").replace(/\s+/g, "-")}-Resume.pdf`);
 }

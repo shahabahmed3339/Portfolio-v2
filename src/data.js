@@ -1,4 +1,4 @@
-{
+export const data = {
     "backgroundVideo": "/assets/background-video.mov",
     "resume": "/assets/Shahab_Ahmed_Resume.pdf",
     "head": {
@@ -10,6 +10,7 @@
         "email": "shahabahmed3339@gmail.com",
         "linkedIn": "its-shahab-ahmed",
         "github": "shahabahmed3339",
+        "portfolio": "https://shahab-ahmed.vercel.app",
         "links": [
             {
                 "title": "LinkedIn",
@@ -53,7 +54,8 @@
                 "Developed a law-related app using NestJS and documented APIs.",
                 "Implemented Row-Level Security (RLS) in PostgreSQL for enhanced data security.",
                 "Implemented Redis for server-side caching.",
-                "Optimized application performance, enhanced efficiency, and improved overall system consistency."
+                "Optimized application performance, enhanced efficiency, and improved overall system consistency.",
+                "Configured and maintained Azure DevOps CI/CD pipelines for automated builds, testing, and deployments."
             ]
         },
         {
@@ -93,7 +95,7 @@
             "description": "ISO Quality Compliance",
             "location": "Islamabad, Pakistan",
             "start": "Feb 2021",
-            "end": "Dec 2021",
+            "end": "Nov 2021",
             "accomplishments": [
                 "Developed a MERN stack web app for ISO-compliant risk assessments.",
                 "Developed a scalable HR management and recruitment system.",
@@ -146,15 +148,15 @@
             ],
             "github": "https://github.com/shahabahmed3339/simula-react-sdk"
         },
-        {
-            "title": "Simula Flutter SDK - Assessment",
-            "description": "Production-ready Native Ad SDK for Flutter applications.",
-            "techList": [
-                "Flutter",
-                "Dart"
-            ],
-            "github": "https://github.com/shahabahmed3339/simula-flutter-sdk"
-        },
+        // {
+        //     "title": "Simula Flutter SDK - Assessment",
+        //     "description": "Production-ready Native Ad SDK for Flutter applications.",
+        //     "techList": [
+        //         "Flutter",
+        //         "Dart"
+        //     ],
+        //     "github": "https://github.com/shahabahmed3339/simula-flutter-sdk"
+        // },
         {
             "title": "Line Match",
             "description": "Simple browser-based demos for matching and highlighting lines/patterns in text.",
@@ -184,46 +186,46 @@
             ],
             "github": "https://github.com/shahabahmed3339/videoPlayModule"
         },
-        {
-            "title": "Risk Management",
-            "description": "Lightweight risk management web app (React frontend + Express/MongoDB backend).",
-            "techList": [
-                "HTML",
-                "CSS",
-                "Javascript",
-                "React.js",
-                "Node.js",
-                "Express.js",
-                "MongoDB"
-            ],
-            "github": "https://github.com/shahabahmed3339/riskmanagement"
-        },
-        {
-            "title": "KBL RMS",
-            "description": "Lightweight Risk Management System (RMS) — fullstack MERN-style app with a React client and an Express/MongoDB server.",
-            "techList": [
-                "HTML",
-                "CSS",
-                "Javascript",
-                "React.js",
-                "Node.js",
-                "Express.js",
-                "MongoDB"
-            ],
-            "github": "https://github.com/shahabahmed3339/kbl-rms"
-        },
-        {
-            "title": "Flask App",
-            "description": "Minimal Flask app for webcam streaming and related frontend assets with React frontend.",
-            "techList": [
-                "React.js",
-                "Flask",
-                "Python",
-                "HTML",
-                "CSS"
-            ],
-            "github": "https://github.com/shahabahmed3339/Flask-Project"
-        },
+        // {
+        //     "title": "Risk Management",
+        //     "description": "Lightweight risk management web app (React frontend + Express/MongoDB backend).",
+        //     "techList": [
+        //         "HTML",
+        //         "CSS",
+        //         "Javascript",
+        //         "React.js",
+        //         "Node.js",
+        //         "Express.js",
+        //         "MongoDB"
+        //     ],
+        //     "github": "https://github.com/shahabahmed3339/riskmanagement"
+        // },
+        // {
+        //     "title": "KBL RMS",
+        //     "description": "Lightweight Risk Management System (RMS) — fullstack MERN-style app with a React client and an Express/MongoDB server.",
+        //     "techList": [
+        //         "HTML",
+        //         "CSS",
+        //         "Javascript",
+        //         "React.js",
+        //         "Node.js",
+        //         "Express.js",
+        //         "MongoDB"
+        //     ],
+        //     "github": "https://github.com/shahabahmed3339/kbl-rms"
+        // },
+        // {
+        //     "title": "Flask App",
+        //     "description": "Minimal Flask app for webcam streaming and related frontend assets with React frontend.",
+        //     "techList": [
+        //         "React.js",
+        //         "Flask",
+        //         "Python",
+        //         "HTML",
+        //         "CSS"
+        //     ],
+        //     "github": "https://github.com/shahabahmed3339/Flask-Project"
+        // },
         {
             "title": "AMS - Automated Monitoring System",
             "description": "A comprehensive face detection and recognition system built with Python, featuring multiple deep learning models and a Django web application for business use.",
@@ -235,19 +237,19 @@
             ],
             "github": "https://github.com/shahabahmed3339/AMS"
         },
+        // {
+        //     "title": "Portfolio",
+        //     "description": "A responsive portfolio website built with React + Vite and Tailwind CSS.",
+        //     "techList": [
+        //         "React.js",
+        //         "Vite",
+        //         "Tailwind CSS",
+        //         "JavaScript"
+        //     ],
+        //     "github": "https://github.com/shahabahmed3339/Portfolio"
+        // },
         {
             "title": "Portfolio",
-            "description": "A responsive portfolio website built with React + Vite and Tailwind CSS.",
-            "techList": [
-                "React.js",
-                "Vite",
-                "Tailwind CSS",
-                "JavaScript"
-            ],
-            "github": "https://github.com/shahabahmed3339/Portfolio"
-        },
-        {
-            "title": "Portfolio-v2",
             "description": "A responsive portfolio website built with React and CSS, showcasing my projects, experience, and skills in a modern design.",
             "techList": [
                 "React.js",
@@ -258,7 +260,7 @@
             "github": "https://github.com/shahabahmed3339/Portfolio-v2"
         },
         {
-            "title": "Resume-Template",
+            "title": "Resume Template",
             "description": "Production-ready A4 resume template built with React + Vite and plain CSS.",
             "techList": [
                 "React.js",

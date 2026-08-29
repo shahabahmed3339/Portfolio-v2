@@ -3,7 +3,7 @@ import { Header } from './components/Header/Header'
 import { Main } from './components/Main/Main'
 import { GlobalStyle } from './styles/global'
 import { Analytics } from "@vercel/analytics/react"
-import data from './data.json';
+import { data } from './data.js';
 
 function App() {
   return (
