@@ -44,9 +44,9 @@ export function Header({ data }: MainProps) {
           <NavHashLink smooth to="#contact" onClick={closeMenu}>
             Contact
           </NavHashLink>
-          <a href="javascript:void(0)" className="button" title="Download Resume" onClick={async () => await exportResumePdf(data)}>
+          <button className="button" title="Download Resume" onClick={async () => await exportResumePdf(data)}>
             Resume
-          </a>
+          </button>
         </nav>
         <div
           aria-expanded={isActive ? 'true' : 'false'}

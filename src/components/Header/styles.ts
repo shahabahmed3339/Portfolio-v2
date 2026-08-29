@@ -21,7 +21,14 @@ export const Container = styled.header`
     display: flex;
     align-items: center;
     gap: 1.8rem;
-    a{
+
+    button{
+      border: none;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    a, button{
       color: #FFFF;
       padding: 0.6rem;
       font-family: 'Red Hat Display', sans-serif;
@@ -167,7 +174,7 @@ export const Container = styled.header`
       transition: opacity 0.25s;
       background-color: var(--natureBlue);
 
-      a.button{
+      a.button, button.button{
         background-color: var(--pink);
         color: #FFF;
       }
