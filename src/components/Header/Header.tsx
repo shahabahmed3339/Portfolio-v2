@@ -2,13 +2,18 @@ import { Container } from './styles';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { NavHashLink, HashLink } from 'react-router-hash-link';
 import { useState } from 'react';
+import { exportResumePdf } from '../../lib/exportResumePdf';
+
+interface MainProps {
+  data: any;
+}
 
 interface HeaderProps {
   name: string;
   resume: string;
 }
 
-export function Header({ name, resume }: HeaderProps) {
+export function Header({ data }: MainProps) {
   const [isActive, setActive] = useState(false)
   function toggleTheme() {
     let html = document.getElementsByTagName('html')[0]
@@ -21,7 +26,7 @@ export function Header({ name, resume }: HeaderProps) {
     <Container className="header-fixed">
       <Router>
         <HashLink smooth to="#home" className="logo">
-          <span>{"<" + name + " />"}</span>
+          <span>{"<" + data.name + " />"}</span>
         </HashLink>
         <input
           onChange={toggleTheme}
@@ -44,7 +49,7 @@ export function Header({ name, resume }: HeaderProps) {
           <NavHashLink smooth to="#contact" onClick={closeMenu}>
             Contact
           </NavHashLink>
-          <a href={resume} download className="button" title="Download Resume">
+          <a className="button" title="Download Resume" onClick={async () => await exportResumePdf(data)}>
             Resume
           </a>
         </nav>

@@ -256,6 +256,28 @@
                 "JavaScript"
             ],
             "github": "https://github.com/shahabahmed3339/Portfolio-v2"
+        },
+        {
+            "title": "Resume-Template",
+            "description": "Production-ready A4 resume template built with React + Vite and plain CSS.",
+            "techList": [
+                "React.js",
+                "Vite",
+                "CSS",
+                "Typescript"
+            ],
+            "github": "https://github.com/shahabahmed3339/resume-template"
+        },
+        {
+            "title": "Expense Tracker",
+            "description": "A Next.js expense tracking app with budgets, expenses, loans, persons, splits, authentication, Prisma, and PWA support.",
+            "techList": [
+                "React.js",
+                "HTML",
+                "CSS",
+                "Typescript"
+            ],
+            "github": "https://github.com/shahabahmed3339/Expense-Tracker"
         }
     ],
     "technologies": [
