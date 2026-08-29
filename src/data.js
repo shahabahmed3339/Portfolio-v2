@@ -35,10 +35,11 @@ export const data = {
         ]
     },
     "about": [
-        "I’m Shahab Ahmed, a Software Engineer with over 5 years of experience specializing in Angular and full-stack development using the MEAN/MERN stack.",
-        "I have worked on healthcare systems, ERP platforms, and compliance applications, delivering scalable, maintainable, and user-focused solutions.",
-        "My expertise includes Angular, React, Node.js, Python (Flask & Django), and modern databases, with strong experience in modular architecture, API integration, and production support.",
-        "I hold a Master’s degree in Computer Science and am passionate about building high-quality software that solves real-world problems efficiently."
+        "Software Engineer with 5+ years of experience building scalable, maintainable, and production-ready web applications across healthcare, ERP, compliance, and business domains.",
+        "Strong expertise in Angular, React, Node.js, NestJS, Python, and modern database technologies, with hands-on experience in full-stack development, RESTful API design, modular architecture, performance optimization, and production support.",
+        "Experienced in implementing PostgreSQL Row-Level Security, Redis caching, API documentation, and Azure DevOps CI/CD pipelines.",
+        "Proven ability to lead development teams, collaborate with stakeholders, troubleshoot complex issues, and deliver reliable software solutions aligned with business requirements.",
+        // "Holds an M.S. in Computer Science with a strong interest in software architecture, cloud technologies, and AI-driven solutions.",
     ],
     "experience": [
         {
