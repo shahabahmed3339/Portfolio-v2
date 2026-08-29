@@ -22,7 +22,7 @@ export function Hero({ head }: HeroProps) {
           <h3>{head.title}</h3>
         </ScrollAnimation>
         <ScrollAnimation animateIn="fadeInUp" delay={0.6 * 1000}>
-          <p className="small-resume">{head.totalExperience} Year{head.totalExperience > 1 ? 's' : ''} Experience</p>
+          <p className="small-resume">{head.totalExperience}+ Year{head.totalExperience > 1 ? 's' : ''} Experience</p>
         </ScrollAnimation>
         <ScrollAnimation animateIn="fadeInUp" delay={0.8 * 1000}>
           <BrowserRouter>
