@@ -44,7 +44,7 @@ export function Header({ data }: MainProps) {
           <NavHashLink smooth to="#contact" onClick={closeMenu}>
             Contact
           </NavHashLink>
-          <a className="button" title="Download Resume" onClick={async () => await exportResumePdf(data)}>
+          <a href="javascript:void(0)" className="button" title="Download Resume" onClick={async () => await exportResumePdf(data)}>
             Resume
           </a>
         </nav>
