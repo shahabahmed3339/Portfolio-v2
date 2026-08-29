@@ -39,72 +39,6 @@
         "My expertise includes Angular, React, Node.js, Python (Flask & Django), and modern databases, with strong experience in modular architecture, API integration, and production support.",
         "I hold a Master’s degree in Computer Science and am passionate about building high-quality software that solves real-world problems efficiently."
     ],
-    "technologies": [
-        {
-            "title": "Python",
-            "icon": "/assets/python.svg"
-        },
-        {
-            "title": "NodeJS",
-            "icon": "/assets/node-icon.svg"
-        },
-        {
-            "title": "NestJS",
-            "icon": "/assets/nestjs.svg"
-        },
-        {
-            "title": "JavaScript",
-            "icon": "/assets/js-icon.svg"
-        },
-        {
-            "title": "Typescript",
-            "icon": "/assets/typescript-icon.svg"
-        },
-        {
-            "title": "React",
-            "icon": "/assets/react-icon.svg"
-        },
-        {
-            "title": "Angular",
-            "icon": "/assets/angular-icon.svg"
-        },
-        {
-            "title": "MongoDB",
-            "icon": "/assets/mongodb-icon.svg"
-        },
-        {
-            "title": "PostgreSQL",
-            "icon": "/assets/postgresql.svg"
-        },
-        {
-            "title": "Swagger",
-            "icon": "/assets/swagger.svg"
-        },
-        {
-            "title": "Redis",
-            "icon": "/assets/redis.svg"
-        },
-        {
-            "title": "Wordpress",
-            "icon": "/assets/wordpress.svg"
-        },
-        {
-            "title": "HTML",
-            "icon": "/assets/html-icon.svg"
-        },
-        {
-            "title": "CSS",
-            "icon": "/assets/css-icon.svg"
-        },
-        {
-            "title": "Bootstrap",
-            "icon": "/assets/bootstrap-icon.svg"
-        },
-        {
-            "title": "Tailwind",
-            "icon": "/assets/tailwind-icon.svg"
-        }
-    ],
     "experience": [
         {
             "image": "/assets/tdm.jpg",
@@ -324,38 +258,113 @@
             "github": "https://github.com/shahabahmed3339/Portfolio-v2"
         }
     ],
+    "technologies": [
+        {
+            "title": "Python",
+            "icon": "/assets/python.svg"
+        },
+        {
+            "title": "NodeJS",
+            "icon": "/assets/node-icon.svg"
+        },
+        {
+            "title": "NestJS",
+            "icon": "/assets/nestjs.svg"
+        },
+        {
+            "title": "JavaScript",
+            "icon": "/assets/js-icon.svg"
+        },
+        {
+            "title": "Typescript",
+            "icon": "/assets/typescript-icon.svg"
+        },
+        {
+            "title": "React",
+            "icon": "/assets/react-icon.svg"
+        },
+        {
+            "title": "Next.js",
+            "icon": "/assets/nextjs.svg"
+        },
+        {
+            "title": "Angular",
+            "icon": "/assets/angular-icon.svg"
+        },
+        {
+            "title": "MongoDB",
+            "icon": "/assets/mongodb-icon.svg"
+        },
+        {
+            "title": "PostgreSQL",
+            "icon": "/assets/postgresql.svg"
+        },
+        {
+            "title": "Swagger",
+            "icon": "/assets/swagger.svg"
+        },
+        {
+            "title": "Redis",
+            "icon": "/assets/redis.svg"
+        },
+        {
+            "title": "Git",
+            "icon": "/assets/git.svg"
+        },
+        {
+            "title": "Azure DevOps",
+            "icon": "/assets/azure-devops.svg"
+        },
+        {
+            "title": "Wordpress",
+            "icon": "/assets/wordpress.svg"
+        },
+        {
+            "title": "HTML",
+            "icon": "/assets/html-icon.svg"
+        },
+        {
+            "title": "CSS",
+            "icon": "/assets/css-icon.svg"
+        },
+        {
+            "title": "Bootstrap",
+            "icon": "/assets/bootstrap-icon.svg"
+        },
+        {
+            "title": "Tailwind",
+            "icon": "/assets/tailwind-icon.svg"
+        }
+    ],
     "skills": [
         "MEAN Stack",
         "MERN Stack",
-        "Angular",
-        "React.js",
-        "Next.js",
-        "Nest.js",
-        "Node.js",
-        "Python",
-        "Flask",
-        "Django",
-        "TypeScript",
-        "JavaScript",
-        "MongoDB",
-        "PostgreSQL",
-        "MySQL",
-        "PowerBi",
-        "Git",
-        "HTML",
-        "Tailwind CSS",
-        "Bootstrap CSS",
-        "CSS",
         "Teamwork",
         "Problem Solving",
         "Customer Support",
-        "Critical Thinking"
+        "Critical Thinking",
+        "Performance Optimization",
+        "Communication",
+        "Adaptability",
+        "Time Management",
+        "Attention to Detail",
+        "Analytical Thinking",
+        "Leadership",
+        "Decision Making",
+        "Continuous Learning"
     ],
     "interests": [
         "Basketball",
         "Badminton",
+        "Table Tennis",
         "Photography",
-        "Coding"
+        "Traveling",
+        "Reading",
+        "Coding",
+        "Open Source",
+        "Artificial Intelligence",
+        "Tech Innovation",
+        "Developer Communities"
     ],
     "languages": [
         "English - Professional",
