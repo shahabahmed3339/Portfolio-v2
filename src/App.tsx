@@ -5,7 +5,6 @@ import { GlobalStyle } from './styles/global'
 import { Analytics } from "@vercel/analytics/react"
 import data from './data.json';
 
-import 'react-toastify/dist/ReactToastify.css'
 function App() {
   return (
     <>

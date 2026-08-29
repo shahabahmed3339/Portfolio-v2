@@ -43,17 +43,17 @@ export async function exportResumePdf(resumeData) {
         pdf.line(margin, y, pageWidth - margin, y);
         y += 4.5;
     };
-    const link = (label, url, { center = false } = {}) => {
-        pdf.setFont("helvetica", "normal");
-        pdf.setFontSize(9.3);
-        const lines = pdf.splitTextToSize(label, contentWidth);
-        ensureSpace(lines.length * 4.76);
-        lines.forEach((line) => {
-            const x = center ? (pageWidth - pdf.getTextWidth(line)) / 2 : margin;
-            pdf.textWithLink(line, x, y, { url });
-            y += 4.76;
-        });
-    };
+    // const link = (label, url, { center = false } = {}) => {
+    //     pdf.setFont("helvetica", "normal");
+    //     pdf.setFontSize(9.3);
+    //     const lines = pdf.splitTextToSize(label, contentWidth);
+    //     ensureSpace(lines.length * 4.76);
+    //     lines.forEach((line) => {
+    //         const x = center ? (pageWidth - pdf.getTextWidth(line)) / 2 : margin;
+    //         pdf.textWithLink(line, x, y, { url });
+    //         y += 4.76;
+    //     });
+    // };
     const entryHeading = (title, organization, entry) => {
         const meta = [getDateRange(entry), entry.location].filter(isPresent).join(" | ");
         pdf.setFont("helvetica", "bold");
@@ -144,5 +144,5 @@ export async function exportResumePdf(resumeData) {
         const text = items.filter(isPresent).join(", ");
         if (text) { section(title); write(text); }
     });
-    pdf.save(`${(head.name || "Resume").replace(/\s+/g, "-")}-ATS-Resume.pdf`);
+    pdf.save(`${(head.name || "Resume").replace(/\s+/g, "-")}-Resume.pdf`);
 }

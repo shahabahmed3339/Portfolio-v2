@@ -8,11 +8,6 @@ interface MainProps {
   data: any;
 }
 
-interface HeaderProps {
-  name: string;
-  resume: string;
-}
-
 export function Header({ data }: MainProps) {
   const [isActive, setActive] = useState(false)
   function toggleTheme() {
@@ -26,7 +21,7 @@ export function Header({ data }: MainProps) {
     <Container className="header-fixed">
       <Router>
         <HashLink smooth to="#home" className="logo">
-          <span>{"<" + data.name + " />"}</span>
+          <span>{"<" + data.head.name + " />"}</span>
         </HashLink>
         <input
           onChange={toggleTheme}
