@@ -51,12 +51,12 @@ export const data = {
             "start": "Mar 2026",
             "end": "Aug 2026",
             "accomplishments": [
-                "Led a team of up to 4 members, overseeing the design, planning, and execution of project requirements.",
-                "Developed a law-related app using NestJS and documented APIs.",
-                "Implemented Row-Level Security (RLS) in PostgreSQL for enhanced data security.",
-                "Implemented Redis for server-side caching.",
-                "Optimized application performance, enhanced efficiency, and improved overall system consistency.",
-                "Configured and maintained Azure DevOps CI/CD pipelines for automated builds, testing, and deployments."
+                "Led a team of up to 4 members, overseeing project design, planning, execution, and technical delivery.",
+                "Developed a law-related application using NestJS with scalable, well-documented APIs.",
+                "Implemented PostgreSQL RLS, migrations, and seeders for secure and consistent database management.",
+                "Implemented Redis caching and Docker containers for improved performance and consistent environments.",
+                "Optimized application performance and resource efficiency, improving system reliability and scalability.",
+                "Configured Azure DevOps CI/CD pipelines for automated builds, testing, and deployments."
             ]
         },
         {
@@ -68,10 +68,10 @@ export const data = {
             "start": "Mar 2024",
             "end": "Feb 2026",
             "accomplishments": [
-                "Developed a medical software system using the MEAN stack.",
-                "Standardized modules to improve efficiency and readability.",
-                "Successfully completed sprint tasks within assigned timelines.",
-                "Provided real-time issue support for customers."
+                "Developed a medical software system using the MEAN stack, AWS, and Docker.",
+                "Standardized and optimized modules to improve efficiency, readability, performance, and code reusability.",
+                "Successfully completed Jira sprint tasks within assigned timelines through effective teamwork and collaboration.",
+                "Provided real-time customer issue support, troubleshooting and resolving technical issues using Bitbucket."
             ]
         },
         {
@@ -83,10 +83,10 @@ export const data = {
             "start": "Dec 2021",
             "end": "Mar 2024",
             "accomplishments": [
-                "MEAN Stack developer building and maintaining scalable, reliable systems.",
-                "Developing a multi-module ERP system (HR, Accounts, Finance, Ledgers, etc.).",
-                "Developing Power BI solutions with clean, efficient, and maintainable code.",
-                "Troubleshooting software defects and supporting production environments."
+                "MEAN Stack developer building and maintaining scalable, reliable systems using Git and CI/CD.",
+                "Developing a multi-module ERP system covering HR, Accounts, Finance, Ledgers, and more.",
+                "Developing Power BI solutions with clean, efficient, and maintainable code for client deliverables.",
+                "Managing servers, deployments, production issues, and client meetings to ensure timely delivery."
             ]
         },
         {
@@ -98,9 +98,9 @@ export const data = {
             "start": "Feb 2021",
             "end": "Nov 2021",
             "accomplishments": [
-                "Developed a MERN stack web app for ISO-compliant risk assessments.",
-                "Developed a scalable HR management and recruitment system.",
-                "Built a real-time attendance system in Django using machine learning."
+                "Developed a MERN app from scratch for ISO-compliant risk assessments using Git and CI/CD.",
+                "Developed and deployed a scalable HR and recruitment system from scratch on Heroku.",
+                "Built a Python Django Attendance Management System (AMS) with real-time attendance and ML."
             ]
         }
     ],
@@ -317,6 +317,10 @@ export const data = {
             "icon": "/assets/angular-icon.svg"
         },
         {
+            "title": "Django",
+            "icon": "/assets/django.svg"
+        },
+        {
             "title": "MongoDB",
             "icon": "/assets/mongodb-icon.svg"
         },
@@ -335,6 +339,18 @@ export const data = {
         {
             "title": "Git",
             "icon": "/assets/git.svg"
+        },
+        {
+            "title": "Bitbucket",
+            "icon": "/assets/bit-bucket.svg"
+        },
+        {
+            "title": "Jira",
+            "icon": "/assets/jira.svg"
+        },
+        {
+            "title": "Docker",
+            "icon": "/assets/docker.svg"
         },
         {
             "title": "Azure DevOps",
@@ -364,17 +380,23 @@ export const data = {
     "skills": [
         "MEAN Stack",
         "MERN Stack",
-        "Teamwork",
+        "Backend Development",
+        "API Development",
+        "Database Management",
+        "CI/CD",
+        "Docker & Deployment",
+        "Performance Optimization",
+        "Code Reusability",
         "Problem Solving",
+        "Teamwork",
+        "Leadership",
         "Customer Support",
         "Critical Thinking",
-        "Performance Optimization",
         "Communication",
         "Adaptability",
         "Time Management",
         "Attention to Detail",
         "Analytical Thinking",
-        "Leadership",
         "Decision Making",
         "Continuous Learning"
     ],
