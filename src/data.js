@@ -35,10 +35,9 @@ export const data = {
         ]
     },
     "about": [
-        "Software Engineer with 5+ years of experience building scalable, maintainable, and production-ready web applications across healthcare, ERP, compliance, and business domains.",
-        "Strong expertise in Angular, React, Node.js, NestJS, Python, and modern database technologies, with hands-on experience in full-stack development, RESTful API design, modular architecture, performance optimization, and production support.",
-        "Experienced in implementing PostgreSQL Row-Level Security, Redis caching, API documentation, and Azure DevOps CI/CD pipelines.",
-        "Proven ability to lead development teams, collaborate with stakeholders, troubleshoot complex issues, and deliver reliable software solutions aligned with business requirements.",
+        "Software Engineer with 5+ years of experience delivering scalable web applications across healthcare, ERP, compliance, and business domains.",
+        "Skilled in Angular, React, Node.js, NestJS, Python, PostgreSQL, Redis, Docker, and Azure DevOps, with hands-on experience in full-stack development, REST API design, CI/CD, performance optimization, and production support.",
+        "Experienced in leading small engineering teams, collaborating with stakeholders, and delivering reliable, maintainable software aligned with business requirements.",
         // "Holds an M.S. in Computer Science with a strong interest in software architecture, cloud technologies, and AI-driven solutions.",
     ],
     "experience": [
@@ -52,7 +51,7 @@ export const data = {
             "end": "Aug 2026",
             "accomplishments": [
                 "Led a team of up to 4 members, overseeing project design, planning, execution, and technical delivery.",
-                "Developed a law-related application using NestJS with scalable, well-documented APIs.",
+                "Developed a legal application using NestJS and scalable, well-documented APIs.",
                 "Implemented PostgreSQL RLS, migrations, and seeders for secure and consistent database management.",
                 "Implemented Redis caching and Docker containers for improved performance and consistent environments.",
                 "Optimized application performance and resource efficiency, improving system reliability and scalability.",
@@ -61,7 +60,7 @@ export const data = {
         },
         {
             "image": "/assets/dn.jpg",
-            "title": "Senior Software engineer",
+            "title": "Senior Software Engineer",
             "company": "Binary Tech (DocNow EHR)",
             "description": "Healthcare Software Support & Maintenance Specialist",
             "location": "Lahore, Pakistan",
@@ -71,7 +70,7 @@ export const data = {
                 "Developed a medical software system using the MEAN stack, AWS, and Docker.",
                 "Standardized and optimized modules to improve efficiency, readability, performance, and code reusability.",
                 "Successfully completed Jira sprint tasks within assigned timelines through effective teamwork and collaboration.",
-                "Provided real-time customer issue support, troubleshooting and resolving technical issues using Bitbucket."
+                "Provided real-time customer support by troubleshooting and resolving technical issues using Bitbucket."
             ]
         },
         {
@@ -83,10 +82,10 @@ export const data = {
             "start": "Dec 2021",
             "end": "Mar 2024",
             "accomplishments": [
-                "MEAN Stack developer building and maintaining scalable, reliable systems using Git and CI/CD.",
-                "Developing a multi-module ERP system covering HR, Accounts, Finance, Ledgers, and more.",
-                "Developing Power BI solutions with clean, efficient, and maintainable code for client deliverables.",
-                "Managing servers, deployments, production issues, and client meetings to ensure timely delivery."
+                "Developed and maintained scalable, reliable MEAN-stack systems using Git and CI/CD.",
+                "Developed a multi-module ERP system covering HR, accounts, finance, and ledgers.",
+                "Built Power BI solutions with clean, efficient, and maintainable code for client deliverables.",
+                "Managed servers, deployments, production issues, and client meetings to support timely delivery."
             ]
         },
         {
@@ -113,7 +112,7 @@ export const data = {
             "start": "Sep 2020",
             "end": "Jan 2023",
             "cgpa": "3.80 / 4.00",
-            "thesis": "Human Action Recognition: A Fused Framework of Pre -trained DarkNet -19 and SqueezeNet Deep Models"
+            "thesis": "Human Action Recognition: A Fused Framework of Pre-trained DarkNet-19 and SqueezeNet Deep Models"
         },
         {
             "image": "/assets/hitec.png",
@@ -123,7 +122,7 @@ export const data = {
             "start": "Sep 2016",
             "end": "Jul 2020",
             "cgpa": "3.62 / 4.00",
-            "thesis": "Implementation of Correlation Filters on DSP Processor for Real-time Applications"
+            "thesis": "Implementation of Correlation Filters on a DSP Processor for Real-Time Applications"
         }
     ],
     "projects": [
@@ -133,7 +132,7 @@ export const data = {
             "techList": [
                 "Node.js",
                 "Express.js",
-                "Javascript",
+                "JavaScript",
                 "MongoDB",
                 "Redis"
             ],
@@ -145,7 +144,7 @@ export const data = {
             "techList": [
                 "React.js",
                 "Next.js",
-                "Typescript"
+                "TypeScript"
             ],
             "github": "https://github.com/shahabahmed3339/simula-react-sdk"
         },
@@ -158,49 +157,49 @@ export const data = {
         //     ],
         //     "github": "https://github.com/shahabahmed3339/simula-flutter-sdk"
         // },
-        {
-            "title": "Line Match",
-            "description": "Simple browser-based demos for matching and highlighting lines/patterns in text.",
-            "techList": [
-                "HTML",
-                "Javascript"
-            ],
-            "github": "https://github.com/shahabahmed3339/line-match"
-        },
-        {
-            "title": "Map Based Conversation",
-            "description": "A funny map-based conversation app where users can chat and share their location on a map.",
-            "techList": [
-                "HTML",
-                "Javascript",
-                "Wordpress",
-                "PHP"
-            ],
-            "github": "https://github.com/shahabahmed3339/map-project"
-        },
-        {
-            "title": "Video Play Module",
-            "description": "Lightweight Python project for selecting and playing local videos via simple menu scripts.",
-            "techList": [
-                "Python",
-                "Raspberry Pi"
-            ],
-            "github": "https://github.com/shahabahmed3339/videoPlayModule"
-        },
         // {
-        //     "title": "Risk Management",
-        //     "description": "Lightweight risk management web app (React frontend + Express/MongoDB backend).",
+        //     "title": "Line Match",
+        //     "description": "Simple browser-based demos for matching and highlighting lines/patterns in text.",
         //     "techList": [
         //         "HTML",
-        //         "CSS",
-        //         "Javascript",
-        //         "React.js",
-        //         "Node.js",
-        //         "Express.js",
-        //         "MongoDB"
+        //         "JavaScript"
         //     ],
-        //     "github": "https://github.com/shahabahmed3339/riskmanagement"
+        //     "github": "https://github.com/shahabahmed3339/line-match"
         // },
+        // {
+        //     "title": "Map Based Conversation",
+        //     "description": "A funny map-based conversation app where users can chat and share their location on a map.",
+        //     "techList": [
+        //         "HTML",
+        //         "JavaScript",
+        //         "WordPress",
+        //         "PHP"
+        //     ],
+        //     "github": "https://github.com/shahabahmed3339/map-project"
+        // },
+        // {
+        //     "title": "Video Play Module",
+        //     "description": "Lightweight Python project for selecting and playing local videos via simple menu scripts.",
+        //     "techList": [
+        //         "Python",
+        //         "Raspberry Pi"
+        //     ],
+        //     "github": "https://github.com/shahabahmed3339/videoPlayModule"
+        // },
+        {
+            "title": "Risk Management",
+            "description": "Lightweight risk management web app (React frontend + Express/MongoDB backend).",
+            "techList": [
+                "HTML",
+                "CSS",
+                "Javascript",
+                "React.js",
+                "Node.js",
+                "Express.js",
+                "MongoDB"
+            ],
+            "github": "https://github.com/shahabahmed3339/riskmanagement"
+        },
         // {
         //     "title": "KBL RMS",
         //     "description": "Lightweight Risk Management System (RMS) — fullstack MERN-style app with a React client and an Express/MongoDB server.",
@@ -260,17 +259,17 @@ export const data = {
             ],
             "github": "https://github.com/shahabahmed3339/Portfolio-v2"
         },
-        {
-            "title": "Resume Template",
-            "description": "Production-ready A4 resume template built with React + Vite and plain CSS.",
-            "techList": [
-                "React.js",
-                "Vite",
-                "CSS",
-                "Typescript"
-            ],
-            "github": "https://github.com/shahabahmed3339/resume-template"
-        },
+        // {
+        //     "title": "Resume Template",
+        //     "description": "Production-ready A4 resume template built with React + Vite and plain CSS.",
+        //     "techList": [
+        //         "React.js",
+        //         "Vite",
+        //         "CSS",
+        //         "TypeScript"
+        //     ],
+        //     "github": "https://github.com/shahabahmed3339/resume-template"
+        // },
         {
             "title": "Expense Tracker",
             "description": "A Next.js expense tracking app with budgets, expenses, loans, persons, splits, authentication, Prisma, and PWA support.",
@@ -278,7 +277,7 @@ export const data = {
                 "React.js",
                 "HTML",
                 "CSS",
-                "Typescript"
+                "TypeScript"
             ],
             "github": "https://github.com/shahabahmed3339/Expense-Tracker"
         }
@@ -286,95 +285,118 @@ export const data = {
     "technologies": [
         {
             "title": "Python",
-            "icon": "/assets/python.svg"
+            "icon": "/assets/python.svg",
+            "category": "Backend Engineering"
         },
         {
             "title": "NodeJS",
-            "icon": "/assets/node-icon.svg"
+            "icon": "/assets/node-icon.svg",
+            "category": "Backend Engineering"
         },
         {
             "title": "NestJS",
-            "icon": "/assets/nestjs.svg"
+            "icon": "/assets/nestjs.svg",
+            "category": "Backend Engineering"
         },
         {
             "title": "JavaScript",
-            "icon": "/assets/js-icon.svg"
+            "icon": "/assets/js-icon.svg",
+            "category": "Frontend Engineering"
         },
         {
-            "title": "Typescript",
-            "icon": "/assets/typescript-icon.svg"
+            "title": "TypeScript",
+            "icon": "/assets/typescript-icon.svg",
+            "category": "Frontend Engineering"
         },
         {
             "title": "React",
-            "icon": "/assets/react-icon.svg"
+            "icon": "/assets/react-icon.svg",
+            "category": "Frontend Engineering"
         },
         {
             "title": "Next.js",
-            "icon": "/assets/nextjs.svg"
+            "icon": "/assets/nextjs.svg",
+            "category": "Frontend Engineering"
         },
         {
             "title": "Angular",
-            "icon": "/assets/angular-icon.svg"
+            "icon": "/assets/angular-icon.svg",
+            "category": "Frontend Engineering"
         },
         {
             "title": "Django",
-            "icon": "/assets/django.svg"
+            "icon": "/assets/django.svg",
+            "category": "Backend Engineering"
         },
         {
             "title": "MongoDB",
-            "icon": "/assets/mongodb-icon.svg"
+            "icon": "/assets/mongodb-icon.svg",
+            "category": "Data & Caching"
         },
         {
             "title": "PostgreSQL",
-            "icon": "/assets/postgresql.svg"
+            "icon": "/assets/postgresql.svg",
+            "category": "Data & Caching"
         },
         {
             "title": "Swagger",
-            "icon": "/assets/swagger.svg"
+            "icon": "/assets/swagger.svg",
+            "category": "Backend Engineering"
         },
         {
             "title": "Redis",
-            "icon": "/assets/redis.svg"
+            "icon": "/assets/redis.svg",
+            "category": "Data & Caching"
         },
         {
             "title": "Git",
-            "icon": "/assets/git.svg"
+            "icon": "/assets/git.svg",
+            "category": "DevOps & Developer Experience"
         },
         {
             "title": "Bitbucket",
-            "icon": "/assets/bit-bucket.svg"
+            "icon": "/assets/bit-bucket.svg",
+            "category": "DevOps & Developer Experience"
         },
         {
             "title": "Jira",
-            "icon": "/assets/jira.svg"
+            "icon": "/assets/jira.svg",
+            "category": "DevOps & Developer Experience"
         },
         {
             "title": "Docker",
-            "icon": "/assets/docker.svg"
+            "icon": "/assets/docker.svg",
+            "category": "DevOps & Developer Experience"
         },
         {
             "title": "Azure DevOps",
-            "icon": "/assets/azure-devops.svg"
+            "icon": "/assets/azure-devops.svg",
+            "category": "DevOps & Developer Experience"
         },
         {
-            "title": "Wordpress",
-            "icon": "/assets/wordpress.svg"
+            "title": "WordPress",
+            "icon": "/assets/wordpress.svg",
+            "category": "Web Platforms"
         },
         {
             "title": "HTML",
-            "icon": "/assets/html-icon.svg"
+            "icon": "/assets/html-icon.svg",
+            "category": "Frontend Engineering"
         },
         {
             "title": "CSS",
-            "icon": "/assets/css-icon.svg"
+            "icon": "/assets/css-icon.svg",
+            "category": "Frontend Engineering"
         },
         {
             "title": "Bootstrap",
-            "icon": "/assets/bootstrap-icon.svg"
+            "icon": "/assets/bootstrap-icon.svg",
+            "category": "Frontend Engineering"
         },
         {
             "title": "Tailwind",
-            "icon": "/assets/tailwind-icon.svg"
+            "icon": "/assets/tailwind-icon.svg",
+            "category": "Frontend Engineering"
         }
     ],
     "skills": [
