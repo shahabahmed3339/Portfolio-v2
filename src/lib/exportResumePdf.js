@@ -12,6 +12,7 @@ const SECTION_LABELS = {
     technologies: "Technical Skills",
     skills: "Core Competencies",
     languages: "Languages",
+    interests: "Interests",
 };
 
 const PDF_CONFIG = {
@@ -20,12 +21,13 @@ const PDF_CONFIG = {
     // font: { family: "Aptos", normal: "normal", bold: "bold", normalFile: regularFontFile, boldFile: boldFontFile, normalUrl: regularFontUrl, boldUrl: boldFontUrl },
     font: { family: "helvetica", normal: "normal", bold: "bold" },
     type: { name: 24, title: 11, section: 11.5, entry: 10.3, body: 10, contact: 9.3, detail: 9.6, projectUrl: 8.6 },
+    color: { text: "#222222", heading: "#163A5F", accent: "#2563A6", muted: "#666666", subtle: "#777777", rule: "#C9D3DE" },
     lineHeight: { body: 4.76, compact: 4.6, entry: 4.7, contact: 4.76 },
     spacing: {
         afterName: 6.5, afterTitle: 5, afterContactRows: 0.24, afterEntry: 2, afterProject: 1.5,
         afterCategory: 1, sectionMinimum: 10, sectionTop: 3, sectionAfterTitle: 1.5, sectionAfterLine: 4.5,
     },
-    layout: { entryMetaWidth: 55, projectLinkWidth: 68, bulletIndent: 3, minimumHeadingHeight: 8 },
+    layout: { entryMetaWidth: 55, projectLinkWidth: 68, bulletIndent: 4, minimumHeadingHeight: 8 },
     text: { contactSeparator: " | ", uncategorizedTechnology: "Other" },
 };
 
@@ -71,7 +73,7 @@ const getDateRange = ({ start, from, startDate, end, to, endDate, current } = {}
 export async function exportResumePdf(resumeData) {
     const { jsPDF } = await import("jspdf");
     const pdf = new jsPDF(PDF_CONFIG.document);
-    const { page, font, type, lineHeight, spacing, layout, text } = PDF_CONFIG;
+    const { page, font, type, lineHeight, spacing, layout, text, color } = PDF_CONFIG;
 
     // await registerFont(pdf, {
     //     url: font.normalUrl,
@@ -93,29 +95,64 @@ export async function exportResumePdf(resumeData) {
     const contentWidth = pageWidth - (margin * 2);
     let y = page.contentTop;
 
-    const setTextStyle = (size, bold = false) => {
+    const setTextStyle = (size, bold = false, fontColor = color.text) => {
         pdf.setFont(font.family, bold ? font.bold : font.normal);
         pdf.setFontSize(size);
+        pdf.setTextColor(fontColor);
     };
     const newPage = () => { pdf.addPage(); y = page.contentTop; };
     const ensureSpace = (height) => { if (y + height > pageBottom) newPage(); };
-    const write = (value, { bold = false, size = type.body, indent = 0, lineHeight: textLineHeight = lineHeight.body } = {}) => {
-        setTextStyle(size, bold);
+    const write = (value, { bold = false, fontColor = color.text, size = type.body, indent = 0, lineHeight: textLineHeight = lineHeight.body } = {}) => {
+        setTextStyle(size, bold, fontColor);
         const lines = pdf.splitTextToSize(String(value), contentWidth - indent);
         ensureSpace(lines.length * textLineHeight);
         pdf.text(lines, margin + indent, y);
         y += lines.length * textLineHeight;
     };
+    const writeLabeledLine = (
+        label,
+        value,
+        {
+            labelColor = color.text,
+            valueColor = color.text,
+            size = type.detail,
+            lineHeight: textLineHeight = lineHeight.body,
+        } = {}
+    ) => {
+        setTextStyle(size, true, labelColor);
+        const labelWidth = pdf.getTextWidth(label);
+        setTextStyle(size, false, valueColor);
+        const lines = pdf.splitTextToSize(
+            String(value),
+            contentWidth - labelWidth
+        );
+        ensureSpace(lines.length * textLineHeight);
+        // Bold label
+        setTextStyle(size, true, labelColor);
+        pdf.text(label, margin, y);
+        // Regular/muted value
+        setTextStyle(size, false, valueColor);
+        pdf.text(lines[0], margin + labelWidth, y);
+        // Wrapped value lines
+        lines.slice(1).forEach((line, index) => {
+            pdf.text(
+                line,
+                margin,
+                y + ((index + 1) * textLineHeight)
+            );
+        });
+        y += lines.length * textLineHeight;
+    };
     const writeCategory = (category, items) => {
         const label = `${category}: `;
-        setTextStyle(type.detail, true);
+        setTextStyle(type.detail, true, color.text);
         const labelWidth = pdf.getTextWidth(label);
-        setTextStyle(type.detail);
+        setTextStyle(type.detail, false, color.text);
         const lines = pdf.splitTextToSize(items.join(", "), contentWidth - labelWidth);
         ensureSpace(lines.length * lineHeight.compact);
-        setTextStyle(type.detail, true);
+        setTextStyle(type.detail, true, color.text);
         pdf.text(label, margin, y);
-        setTextStyle(type.detail);
+        setTextStyle(type.detail, false, color.text);
         pdf.text(lines[0], margin + labelWidth, y);
         lines.slice(1).forEach((line, index) => pdf.text(line, margin, y + ((index + 1) * lineHeight.compact)));
         y += lines.length * lineHeight.compact;
@@ -123,40 +160,41 @@ export async function exportResumePdf(resumeData) {
     const section = (title) => {
         ensureSpace(spacing.sectionMinimum);
         y += spacing.sectionTop;
-        setTextStyle(type.section, true);
+        setTextStyle(type.section, true, color.heading);
         pdf.text(title.toUpperCase(), margin, y);
         y += spacing.sectionAfterTitle;
+        pdf.setDrawColor(color.rule);
         pdf.line(margin, y, pageWidth - margin, y);
         y += spacing.sectionAfterLine;
     };
     const entryHeading = (title, organization, entry) => {
         const meta = [getDateRange(entry), entry.location].filter(isPresent).join(text.contactSeparator);
-        setTextStyle(type.entry, true);
+        setTextStyle(type.entry, true, color.text);
         const titleLines = pdf.splitTextToSize(title, meta ? contentWidth - layout.entryMetaWidth : contentWidth);
         ensureSpace(Math.max(titleLines.length * lineHeight.entry, layout.minimumHeadingHeight));
         pdf.text(titleLines, margin, y);
         if (meta) {
-            setTextStyle(type.contact);
+            setTextStyle(type.contact, false, color.muted);
             pdf.text(meta, pageWidth - margin, y, { align: "right" });
         }
         y += titleLines.length * lineHeight.entry;
-        if (organization) write(organization, { bold: true });
+        if (organization) write(organization, { bold: true, fontColor: color.heading });
     };
     const projectHeading = (title, url) => {
-        setTextStyle(type.entry, true);
+        setTextStyle(type.entry, true, color.text);
         const urlLabel = url?.replace(/^https?:\/\//, "") || "";
         const titleLines = pdf.splitTextToSize(title, urlLabel ? contentWidth - layout.projectLinkWidth : contentWidth);
         ensureSpace(Math.max(titleLines.length * lineHeight.entry, layout.minimumHeadingHeight));
         pdf.text(titleLines, margin, y);
         if (urlLabel) {
-            setTextStyle(type.projectUrl);
+            setTextStyle(type.projectUrl, false, color.accent);
             pdf.textWithLink(urlLabel, pageWidth - margin, y, { align: "right", url });
         }
         y += titleLines.length * lineHeight.entry;
     };
-    const { head = {}, about = [], experience = [], education = [], projects = [], technologies = [], skills = [], languages = [] } = resumeData;
+    const { head = {}, about = [], experience = [], education = [], projects = [], technologies = [], skills = [], languages = [], interests = [] } = resumeData;
 
-    setTextStyle(type.name, true);
+    setTextStyle(type.name, true, color.heading);
     pdf.text(head.name || "Resume", pageWidth / 2, y, { align: "center" });
     y += spacing.afterName;
     if (head.title) { setTextStyle(type.title); pdf.text(head.title, pageWidth / 2, y, { align: "center" }); y += spacing.afterTitle; }
@@ -167,7 +205,7 @@ export async function exportResumePdf(resumeData) {
         head.github && [`github.com/${head.github}`, toUrl(head.github, "https://github.com/")],
         head.portfolio && [head.portfolio.replace(/^https?:\/\//, ""), toUrl(head.portfolio)],
     ].filter(Boolean);
-    setTextStyle(type.contact);
+    setTextStyle(type.contact, false, color.muted);
     const separator = text.contactSeparator;
     const contactRows = contacts.reduce((rows, contact) => {
         const currentRow = rows[rows.length - 1];
@@ -181,9 +219,14 @@ export async function exportResumePdf(resumeData) {
         const rowWidth = row.reduce((total, [label]) => total + pdf.getTextWidth(label), 0) + Math.max(row.length - 1, 0) * pdf.getTextWidth(separator);
         let contactX = (pageWidth - rowWidth) / 2;
         row.forEach(([label, url], index) => {
+            setTextStyle(type.contact, false, color.accent);
             pdf.textWithLink(label, contactX, y, { url });
             contactX += pdf.getTextWidth(label);
-            if (index < row.length - 1) { pdf.text(separator, contactX, y); contactX += pdf.getTextWidth(separator); }
+            if (index < row.length - 1) {
+                setTextStyle(type.contact, false, color.muted);
+                pdf.text(separator, contactX, y);
+                contactX += pdf.getTextWidth(separator);
+            }
         });
         y += lineHeight.contact;
     });
@@ -195,8 +238,8 @@ export async function exportResumePdf(resumeData) {
         section(SECTION_LABELS.experience);
         experience.filter(Boolean).forEach((job) => {
             entryHeading(job.title, job.company, job);
-            if (job.description) write(job.description);
-            (job.accomplishments || []).filter(isPresent).forEach((item) => write(`- ${item}`, { indent: layout.bulletIndent }));
+            if (job.description) write(job.description, { fontColor: color.subtle, size: type.detail });
+            (job.accomplishments || []).filter(isPresent).forEach((item) => write(`• ${item}`, { indent: layout.bulletIndent }));
             y += spacing.afterEntry;
         });
     }
@@ -204,8 +247,8 @@ export async function exportResumePdf(resumeData) {
         section(SECTION_LABELS.education);
         education.filter(Boolean).forEach((item) => {
             entryHeading(item.title, item.institute, item);
-            if (item.cgpa) write(`CGPA: ${item.cgpa}`);
-            if (item.thesis) write(`Thesis: ${item.thesis}`);
+            if (item.cgpa) writeLabeledLine("CGPA: ", item.cgpa, { labelColor: color.text, valueColor: color.text });
+            if (item.thesis) writeLabeledLine("Thesis: ", item.thesis, { labelColor: color.text, valueColor: color.text });
             y += spacing.afterEntry;
         });
     }
@@ -213,8 +256,9 @@ export async function exportResumePdf(resumeData) {
         section(SECTION_LABELS.projects);
         projects.filter(Boolean).forEach((project) => {
             projectHeading(project.title || "Project", project.github && toUrl(project.github));
+            if (project.techList?.length) write(project.techList.filter(isPresent).join(", "), { fontColor: color.muted, size: type.detail, lineHeight: lineHeight.compact });
+            // if (project.techList?.length) writeLabeledLine("Technologies: ", project.techList.filter(isPresent).join(", "), { labelColor: color.muted, valueColor: color.muted, size: type.detail, lineHeight: lineHeight.compact });
             if (project.description) write(project.description);
-            if (project.techList?.length) write(`Technologies: ${project.techList.filter(isPresent).join(", ")}`, { size: type.detail, lineHeight: lineHeight.compact });
             y += spacing.afterProject;
         });
     }
@@ -235,7 +279,7 @@ export async function exportResumePdf(resumeData) {
         });
     }
     [
-        [SECTION_LABELS.skills, skills], [SECTION_LABELS.languages, languages],
+        [SECTION_LABELS.skills, skills], [SECTION_LABELS.interests, interests], [SECTION_LABELS.languages, languages],
     ].forEach(([title, items]) => {
         const text = items.filter(isPresent).join(", ");
         if (text) { section(title); write(text); }

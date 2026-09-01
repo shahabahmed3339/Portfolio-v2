@@ -106,7 +106,7 @@ export const data = {
     "education": [
         {
             "image": "/assets/hitec.png",
-            "title": "Masters of Science in Computer Science",
+            "title": "Master of Science in Computer Science",
             "institute": "HITEC University",
             "location": "Taxila, Pakistan",
             "start": "Sep 2020",
@@ -116,7 +116,7 @@ export const data = {
         },
         {
             "image": "/assets/hitec.png",
-            "title": "Bachelors of Science in Computer Engineering",
+            "title": "Bachelor of Science in Computer Engineering",
             "institute": "HITEC University",
             "location": "Taxila, Pakistan",
             "start": "Sep 2016",
@@ -192,7 +192,7 @@ export const data = {
             "techList": [
                 "HTML",
                 "CSS",
-                "Javascript",
+                "JavaScript",
                 "React.js",
                 "Node.js",
                 "Express.js",
@@ -206,7 +206,7 @@ export const data = {
         //     "techList": [
         //         "HTML",
         //         "CSS",
-        //         "Javascript",
+        //         "JavaScript",
         //         "React.js",
         //         "Node.js",
         //         "Express.js",
@@ -289,12 +289,12 @@ export const data = {
             "category": "Backend Engineering"
         },
         {
-            "title": "NodeJS",
+            "title": "Node.js",
             "icon": "/assets/node-icon.svg",
             "category": "Backend Engineering"
         },
         {
-            "title": "NestJS",
+            "title": "Nest.js",
             "icon": "/assets/nestjs.svg",
             "category": "Backend Engineering"
         },
@@ -422,19 +422,19 @@ export const data = {
         "Decision Making",
         "Continuous Learning"
     ],
-    "interests": [
-        "Basketball",
-        "Badminton",
-        "Table Tennis",
-        "Photography",
-        "Traveling",
-        "Reading",
-        "Coding",
-        "Open Source",
-        "Artificial Intelligence",
-        "Tech Innovation",
-        "Developer Communities"
-    ],
+    // "interests": [
+    //     "Basketball",
+    //     "Badminton",
+    //     "Table Tennis",
+    //     "Photography",
+    //     "Traveling",
+    //     "Reading",
+    //     "Coding",
+    //     "Open Source",
+    //     "Artificial Intelligence",
+    //     "Tech Innovation",
+    //     "Developer Communities"
+    // ],
     "languages": [
         "English - Professional",
         "Urdu - Native",
