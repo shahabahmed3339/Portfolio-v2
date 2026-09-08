@@ -140,7 +140,7 @@ export function Main({ data }: MainProps) {
                 "value": "*",
                 "weight": "400"
               },
-              "image": data.technologies.map((tech: any) => ({
+              "image": data.technologies.filter((tech: any) => tech.icon).map((tech: any) => ({
                 "src": tech.icon,
                 "width": 20,
                 "height": 20

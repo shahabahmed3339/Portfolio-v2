@@ -42,7 +42,7 @@ export function About({ data }: AboutProps) {
           <h3>Here are my main skills:</h3>
         </ScrollAnimation>
         <div className="hard-skills">
-          {data.technologies.map((tech: any, i: number) => (
+          {data.technologies.filter((tech: any) => tech.icon).map((tech: any, i: number) => (
             <div key={tech.title} className="hability">
               <ScrollAnimation animateIn="fadeInUp" delay={(0.1 + (i / 100)) * 1000}>
                 <img src={tech.icon} alt={tech.title} />

@@ -158,7 +158,10 @@ export async function exportResumePdf(resumeData) {
         y += lines.length * lineHeight.compact;
     };
     const section = (title) => {
-        ensureSpace(spacing.sectionMinimum);
+        // Calculate the minimum height required for the heading and the absolute first line of content
+        const sectionStartHeight = spacing.sectionTop + type.section + spacing.sectionAfterTitle + spacing.sectionAfterLine + lineHeight.body;
+        ensureSpace(sectionStartHeight);
+        // ensureSpace(spacing.sectionMinimum);
         y += spacing.sectionTop;
         setTextStyle(type.section, true, color.heading);
         pdf.text(title.toUpperCase(), margin, y);
