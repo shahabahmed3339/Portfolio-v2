@@ -28,7 +28,7 @@ const PDF_CONFIG = {
         afterCategory: 1, sectionMinimum: 10, sectionTop: 3, sectionAfterTitle: 1.5, sectionAfterLine: 4.5,
     },
     layout: { entryMetaWidth: 55, projectLinkWidth: 68, bulletIndent: 4, minimumHeadingHeight: 8 },
-    text: { contactSeparator: " | ", uncategorizedTechnology: "Other" },
+    text: { contactSeparator: "  |  ", uncategorizedTechnology: "Other" },
 };
 
 const isPresent = (value) => value !== undefined && value !== null && (typeof value !== "string" || value.trim()) && (!Array.isArray(value) || value.length);
@@ -199,6 +199,7 @@ export async function exportResumePdf(resumeData) {
     y += spacing.afterName;
     if (head.title) { setTextStyle(type.title); pdf.text(head.title, pageWidth / 2, y, { align: "center" }); y += spacing.afterTitle; }
     const contacts = [
+        head.location && [head.location, `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(head.location)}`],
         head.phone && [head.phone, `tel:${head.phone.replace(/\s/g, "")}`],
         head.email && [head.email, `mailto:${head.email}`],
         head.linkedIn && [`linkedin.com/in/${head.linkedIn}`, toUrl(head.linkedIn, "https://www.linkedin.com/in/")],

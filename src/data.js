@@ -6,6 +6,7 @@ export const data = {
         "title": "Software Engineer",
         "totalExperience": 5,
         "profile": "/assets/Profile.png",
+        "location": "Lahore, Pakistan",
         "phone": "+923151586289",
         "email": "shahabahmed3339@gmail.com",
         "linkedIn": "its-shahab-ahmed",
@@ -36,9 +37,9 @@ export const data = {
     },
     "about": [
         "Software Engineer with 5+ years of experience delivering scalable web applications across healthcare, ERP, compliance, and business domains.",
-        "Skilled in Angular, React, Node.js, NestJS, Python, PostgreSQL, Redis, Docker, and Azure DevOps, with hands-on experience in full-stack development, REST API design, CI/CD, performance optimization, and production support.",
+        "Skilled in Angular, React, Node.js, Nest.js, Python, PostgreSQL, Redis, Docker, and Azure DevOps, with hands-on experience in full-stack development, REST API design, CI/CD, performance optimization, and production support.",
         "Experienced in leading small engineering teams, collaborating with stakeholders, and delivering reliable, maintainable software aligned with business requirements.",
-        // "Holds an M.S. in Computer Science with a strong interest in software architecture, cloud technologies, and AI-driven solutions.",
+        // "Holds an M.S. in Computer Science, with experience and interest in software architecture, cloud technologies, and AI-driven solutions."
     ],
     "experience": [
         {
@@ -51,7 +52,7 @@ export const data = {
             "end": "Aug 2026",
             "accomplishments": [
                 "Led a team of up to 4 members, overseeing project design, planning, execution, and technical delivery.",
-                "Developed a legal application using NestJS and scalable, well-documented APIs.",
+                "Developed a legal application using Nest.js and scalable, well-documented APIs.",
                 "Implemented PostgreSQL RLS, migrations, and seeders for secure and consistent database management.",
                 "Implemented Redis caching and Docker containers for improved performance and consistent environments.",
                 "Optimized application performance and resource efficiency, improving system reliability and scalability.",
