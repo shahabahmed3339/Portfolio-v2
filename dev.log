@@ -1,0 +1,92 @@
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+  - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 2.9s
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 3.7s (576 modules)
+ GET /_next/static/webpack/c1a83ea53317b258.webpack.hot-update.json 404 in 3984ms
+ ○ Compiling / ...
+ ✓ Compiled / in 5.6s (1603 modules)
+ GET /_next/static/webpack/c1a83ea53317b258.webpack.hot-update.json 404 in 193ms
+ GET /sw.js 404 in 59ms
+ GET / 200 in 10520ms
+ GET / 200 in 1035ms
+ ○ Compiling /api/auth/[...nextauth] ...
+ ✓ Compiled /api/auth/[...nextauth] in 1342ms (1045 modules)
+ GET /sw.js 404 in 116ms
+ GET /api/auth/session 200 in 3620ms
+ GET /api/auth/session 200 in 29ms
+ GET /api/auth/session 200 in 13ms
+ GET /api/auth/providers 200 in 27ms
+ GET /api/auth/csrf 200 in 14ms
+ POST /api/auth/callback/credentials 401 in 1044ms
+ GET /api/auth/providers 200 in 33ms
+ GET /api/auth/csrf 200 in 13ms
+ POST /api/auth/callback/credentials 401 in 1085ms
+ ○ Compiling /login ...
+ ✓ Compiled /login in 675ms (1855 modules)
+ GET /login 200 in 869ms
+ GET /api/auth/session 200 in 92ms
+ GET /api/auth/session 200 in 14ms
+ GET /api/auth/session 200 in 11ms
+ GET /sw.js 404 in 55ms
+ GET / 200 in 1094ms
+ GET /api/auth/session 200 in 28ms
+ GET /api/auth/session 200 in 14ms
+ GET /api/auth/session 200 in 13ms
+ GET /sw.js 404 in 43ms
+ GET / 200 in 1587ms
+ GET /api/auth/session 200 in 52ms
+ GET /api/auth/session 200 in 17ms
+ GET /api/auth/session 200 in 15ms
+ GET /sw.js 404 in 66ms
+ GET /login 200 in 63ms
+ GET /api/auth/session 200 in 31ms
+ GET /api/auth/session 200 in 18ms
+ GET /api/auth/session 200 in 18ms
+ GET /sw.js 404 in 58ms
+ GET /api/auth/providers 200 in 27ms
+ GET /api/auth/csrf 200 in 11ms
+ POST /api/auth/callback/credentials 401 in 700ms
+ GET / 200 in 1288ms
+ GET /login 200 in 76ms
+ ○ Compiling /admin ...
+ ✓ Compiled /admin in 1053ms (1908 modules)
+ GET /admin 200 in 1241ms
+ GET /api/auth/providers 200 in 84ms
+ GET /api/auth/csrf 200 in 10ms
+ POST /api/auth/callback/credentials 200 in 1576ms
+ GET /api/auth/session 200 in 27ms
+ ○ Compiling /api/projects ...
+ ✓ Compiled /api/projects in 804ms (1117 modules)
+ GET /api/projects 200 in 2530ms
+ GET /api/projects 200 in 515ms
+ GET /api/auth/session 200 in 57ms
+ GET /api/auth/session 200 in 17ms
+ GET /api/auth/csrf 200 in 32ms
+ POST /api/auth/callback/credentials 200 in 1400ms
+ GET /api/auth/session 200 in 30ms
+ ✓ Compiled /api/portfolio in 336ms (1119 modules)
+ GET /api/portfolio 200 in 1365ms
+ ✓ Compiled /api/health in 343ms (1121 modules)
+ GET /api/health 200 in 996ms
+prisma:error Error in PostgreSQL connection: Error { kind: Io, cause: Some(Os { code: 10054, kind: ConnectionReset, message: "An existing connection was forcibly closed by the remote host." }) }
+prisma:error Error in PostgreSQL connection: Error { kind: Io, cause: Some(Os { code: 10054, kind: ConnectionReset, message: "An existing connection was forcibly closed by the remote host." }) }
+prisma:error Error in PostgreSQL connection: Error { kind: Io, cause: Some(Os { code: 10054, kind: ConnectionReset, message: "An existing connection was forcibly closed by the remote host." }) }
+prisma:error Error in PostgreSQL connection: Error { kind: Io, cause: Some(Os { code: 10054, kind: ConnectionReset, message: "An existing connection was forcibly closed by the remote host." }) }
+prisma:error Error in PostgreSQL connection: Error { kind: Io, cause: Some(Os { code: 10054, kind: ConnectionReset, message: "An existing connection was forcibly closed by the remote host." }) }
+prisma:error Error in PostgreSQL connection: Error { kind: Io, cause: Some(Os { code: 10054, kind: ConnectionReset, message: "An existing connection was forcibly closed by the remote host." }) }
+prisma:error Error in PostgreSQL connection: Error { kind: Io, cause: Some(Os { code: 10054, kind: ConnectionReset, message: "An existing connection was forcibly closed by the remote host." }) }
+prisma:error Error in PostgreSQL connection: Error { kind: Io, cause: Some(Os { code: 10054, kind: ConnectionReset, message: "An existing connection was forcibly closed by the remote host." }) }
+prisma:error Error in PostgreSQL connection: Error { kind: Io, cause: Some(Os { code: 10054, kind: ConnectionReset, message: "An existing connection was forcibly closed by the remote host." }) }
+ GET /api/auth/session 200 in 107ms
+ GET /admin 200 in 189ms
+ GET /api/auth/session 200 in 28ms
+ GET /api/auth/session 200 in 17ms
+ GET /api/auth/session 200 in 34ms
+ GET /api/auth/session 200 in 16ms
+ GET /api/auth/session 200 in 18ms
+ GET /api/auth/session 200 in 27ms
+ GET /api/projects 200 in 3129ms

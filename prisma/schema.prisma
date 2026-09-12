@@ -1,0 +1,232 @@
+// Portfolio-v2 database schema.
+// Mirrors the shape of the portfolio content so the public site is driven
+// from the database and edited through the admin UI.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Auth
+// ---------------------------------------------------------------------------
+
+model User {
+  id           String    @id @default(cuid())
+  name         String?
+  email        String    @unique
+  passwordHash String
+  role         String    @default("ADMIN")
+  image        String?
+  isActive     Boolean   @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  accounts  Account[]
+  sessions  Session[]
+  auditLogs AuditLog[]
+
+  @@index([email])
+}
+
+// next-auth adapter model
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+// next-auth adapter model (database sessions)
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  resource  String?
+  metadata  Json?
+  ip        String?
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([action, createdAt])
+}
+
+// ---------------------------------------------------------------------------
+// Portfolio content
+// ---------------------------------------------------------------------------
+
+// Singleton row holding the "head" object plus resume/background video assets.
+model Profile {
+  id              String   @id @default(cuid())
+  name            String
+  title           String
+  totalExperience Int      @default(0)
+  profile         String?
+  location        String?
+  phone           String?
+  email           String?
+  linkedIn        String?
+  github          String?
+  portfolio       String?
+  backgroundVideo String?
+  resume          String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  socialLinks SocialLink[]
+}
+
+// head.links[]
+model SocialLink {
+  id        String   @id @default(cuid())
+  profileId String
+  title     String
+  url       String
+  icon      String?
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId, sortOrder])
+}
+
+// about[] (array of paragraphs)
+model AboutParagraph {
+  id        String   @id @default(cuid())
+    text      String   @db.Text
+    sortOrder Int      @default(0)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    @@index([sortOrder])
+  }
+
+  // experience[]
+model Experience {
+  id              String   @id @default(cuid())
+  image           String?
+  title           String
+  company         String
+  description     String?
+  location        String?
+  start           String
+  end             String?
+  accomplishments String[] @default([])
+  sortOrder       Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([sortOrder])
+}
+
+// education[]
+model Education {
+  id        String   @id @default(cuid())
+  image     String?
+  title     String
+  institute String
+  location  String?
+  start     String
+  end       String?
+  cgpa      String?
+  thesis    String?  @db.Text
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sortOrder])
+}
+
+// projects[]
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  techList    String[] @default([])
+  github      String?
+  liveUrl     String?
+  isVisible   Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([sortOrder])
+}
+
+// technologies[]
+model Technology {
+  id        String   @id @default(cuid())
+  title     String
+  icon      String?
+  category  String   @default("Other")
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category, sortOrder])
+}
+
+// skills[] (flat list of strings)
+model Skill {
+  id        String   @id @default(cuid())
+  title     String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sortOrder])
+}
+
+// interests[] (flat list of strings)
+model Interest {
+  id        String   @id @default(cuid())
+  title     String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sortOrder])
+}
+
+// languages[] (e.g. "English" + "Professional")
+model Language {
+  id          String   @id @default(cuid())
+  name        String
+  proficiency String?
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([sortOrder])
+}

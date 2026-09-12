@@ -1,34 +1,29 @@
+"use client";
+
+import { useState } from 'react';
 import { Container, ContainerSucces } from './styles';
-import { useForm, ValidationError } from '@formspree/react';
-import { toast, ToastContainer } from 'react-toastify';
-import ReCAPTCHA from 'react-google-recaptcha';
-import { useEffect, useState } from 'react';
-import validator from 'validator';
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function Form() {
-  const [state, handleSubmit] = useForm('mnjbovaq')
-  const [validEmail, setValidEmail] = useState(false)
-  const [isHuman, setIsHuman] = useState(false)
-  const [message, setMessage] = useState('')
-  function verifyEmail(email: string) {
-    if (validator.isEmail(email)) {
-      setValidEmail(true)
-    } else {
-      setValidEmail(false)
-    }
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [sent, setSent] = useState(false);
+
+  const validEmail = EMAIL_RE.test(email);
+
+  function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    // Opens the visitor's mail client pre-filled with the message.
+    // Replace this handler with your own form endpoint to collect submissions.
+    const mailto = `mailto:shahabahmed3339@gmail.com?subject=${encodeURIComponent(
+      `Portfolio contact from ${email}`,
+    )}&body=${encodeURIComponent(message)}`;
+    window.location.href = mailto;
+    setSent(true);
   }
-  useEffect(() => {
-    if (state.succeeded) {
-      toast.success('Email successfully sent!', {
-        position: toast.POSITION.BOTTOM_LEFT,
-        pauseOnFocusLoss: false,
-        closeOnClick: true,
-        hideProgressBar: false,
-        toastId: 'succeeded',
-      })
-    }
-  })
-  if (state.succeeded) {
+
+  if (sent) {
     return (
       <ContainerSucces>
         <h3>Thanks for getting in touch!</h3>
@@ -39,10 +34,10 @@ export function Form() {
         >
           Back to the top
         </button>
-        <ToastContainer />
       </ContainerSucces>
     )
   }
+
   return (
     <Container>
       <h2>Get in touch using the form</h2>
@@ -52,40 +47,22 @@ export function Form() {
           id="email"
           type="email"
           name="email"
-          onChange={(e) => {
-            verifyEmail(e.target.value)
-          }}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <ValidationError prefix="Email" field="email" errors={state.errors} />
         <textarea
           required
           placeholder="Send a message to get started."
           id="message"
           name="message"
-          onChange={(e) => {
-            setMessage(e.target.value)
-          }}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
         />
-        <ValidationError
-          prefix="Message"
-          field="message"
-          errors={state.errors}
-        />
-        <ReCAPTCHA
-          sitekey="6LfVHXUsAAAAAIf6lSTPb5pWlDFArk6s-5Roi5kI"
-          onChange={(e) => {
-            setIsHuman(true)
-          }}
-        ></ReCAPTCHA>
-        <button
-          type="submit"
-          disabled={state.submitting || !validEmail || !message || !isHuman}
-        >
+        <button type="submit" disabled={!validEmail || !message}>
           Submit
         </button>
       </form>
-      <ToastContainer />
     </Container>
   )
 }

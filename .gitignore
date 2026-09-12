@@ -10,6 +10,17 @@
 
 # production
 /build
+/.next
+/out
+# database
+*.db
+*.db-journal
+prisma/dev.db
+# env
+.env
+# typescript
+*.tsbuildinfo
+next-env.d.ts
 
 # misc
 .DS_Store

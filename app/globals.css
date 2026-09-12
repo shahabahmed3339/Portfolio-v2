@@ -1,0 +1,14 @@
+/* Base resets live in the styled-components GlobalStyle.
+   This file only sets html/body defaults so Next can apply them before JS. */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}

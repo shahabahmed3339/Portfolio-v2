@@ -1,3 +1,5 @@
+"use client";
+
 import Particles from "react-tsparticles"
 import { Container } from "./styles";
 import { Hero } from "../Hero/Hero";
