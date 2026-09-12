@@ -157,9 +157,10 @@ export async function exportResumePdf(resumeData) {
         lines.slice(1).forEach((line, index) => pdf.text(line, margin, y + ((index + 1) * lineHeight.compact)));
         y += lines.length * lineHeight.compact;
     };
+    const ptToMm = (pt) => pt * 25.4 / 72;
     const section = (title) => {
         // Calculate the minimum height required for the heading and the absolute first line of content
-        const sectionStartHeight = spacing.sectionTop + type.section + spacing.sectionAfterTitle + spacing.sectionAfterLine + lineHeight.body;
+        const sectionStartHeight = spacing.sectionTop + ptToMm(type.section) + spacing.sectionAfterTitle + spacing.sectionAfterLine + lineHeight.body;
         ensureSpace(sectionStartHeight);
         // ensureSpace(spacing.sectionMinimum);
         y += spacing.sectionTop;

@@ -4,7 +4,7 @@ export const data = {
 
     head: {
         name: "Shahab Ahmed",
-        title: "Software Engineer",
+        title: "Software Engineer | Full-Stack & AI Applications",
         totalExperience: 5,
         profile: "/assets/Profile.png",
         location: "Lahore, Pakistan",
@@ -39,9 +39,9 @@ export const data = {
     },
 
     about: [
-        "Software Engineer with 5+ years of experience delivering scalable web applications across healthcare, ERP, compliance, and business domains.",
-        "Skilled in Angular, React, Node.js, Nest.js, Python, PostgreSQL, MongoDB, Redis, Docker, AWS, and Azure DevOps, with hands-on experience in full-stack development, REST API design, CI/CD, automated testing, performance optimization, and production support.",
-        "Experienced in leading small engineering teams, collaborating with stakeholders, and delivering reliable, maintainable software aligned with business requirements."
+        "Software Engineer with 5+ years of experience delivering scalable web applications across healthcare, ERP, compliance, and business domains, including professional experience developing AI-powered applications and AI agents.",
+        "Skilled in Angular, React, Node.js, Nest.js, Python, PostgreSQL, MongoDB, Redis, Docker, AWS, and Azure DevOps, with hands-on experience in full-stack development, REST API design, AI agent integration, CI/CD, automated testing, performance optimization, and production support.",
+        "Experienced in leading engineering teams, designing backend services and intelligent application workflows, collaborating with stakeholders, and delivering reliable, maintainable software aligned with business requirements."
     ],
 
     experience: [
@@ -56,10 +56,10 @@ export const data = {
             accomplishments: [
                 "Led a 4-member team managing project design, planning, execution, code quality, and delivery.",
                 "Developed a legal application using Nest.js with scalable, secure, and well-documented REST APIs.",
+                "Designed and integrated AI agents to automate workflows and support intelligent application functionality.",
                 "Implemented PostgreSQL Row-Level Security (RLS), migrations, and seeders for secure databases.",
                 "Deployed Redis caching and Docker to enhance performance, scalability, and environment consistency.",
                 "Developed and maintained Jest unit tests and E2E tests for critical application functionality and API workflows.",
-                "Maintained and improved automated test coverage to identify untested logic and improve release confidence.",
                 "Optimized application performance and resource efficiency, improving system reliability and scalability.",
                 "Configured Azure DevOps CI/CD pipelines for automated builds, testing, and deployments.",
                 "Participated in technical architecture decisions, code reviews, debugging, and production issue resolution."
@@ -76,6 +76,7 @@ export const data = {
             end: "Feb 2026",
             accomplishments: [
                 "Developed and maintained a healthcare software platform using the MEAN stack, AWS, Docker, and REST APIs.",
+                "Designed and integrated AI agents to automate application workflows and enhance intelligent software capabilities.",
                 "Standardized modules to improve efficiency, readability, performance, and code reusability.",
                 "Developed Jest unit tests and E2E tests for critical application functionality and API workflows.",
                 "Maintained automated test coverage to catch regressions and boost production release confidence.",
@@ -173,47 +174,47 @@ export const data = {
             github: "https://github.com/shahabahmed3339/simula-react-sdk"
         },
         // {
-        //     "title": "Simula Flutter SDK - Assessment",
-        //     "description": "Production-ready Native Ad SDK for Flutter applications.",
-        //     "techList": [
+        //     title: "Simula Flutter SDK - Assessment",
+        //     description: "Production-ready Native Ad SDK for Flutter applications.",
+        //     techList: [
         //         "Flutter",
         //         "Dart"
         //     ],
-        //     "github": "https://github.com/shahabahmed3339/simula-flutter-sdk"
+        //     github: "https://github.com/shahabahmed3339/simula-flutter-sdk"
         // },
         // {
-        //     "title": "Line Match",
-        //     "description": "Simple browser-based demos for matching and highlighting lines/patterns in text.",
-        //     "techList": [
+        //     title: "Line Match",
+        //     description: "Simple browser-based demos for matching and highlighting lines/patterns in text.",
+        //     techList: [
         //         "HTML",
         //         "JavaScript"
         //     ],
-        //     "github": "https://github.com/shahabahmed3339/line-match"
+        //     github: "https://github.com/shahabahmed3339/line-match"
         // },
         // {
-        //     "title": "Map Based Conversation",
-        //     "description": "A funny map-based conversation app where users can chat and share their location on a map.",
-        //     "techList": [
+        //     title: "Map Based Conversation",
+        //     description: "A funny map-based conversation app where users can chat and share their location on a map.",
+        //     techList: [
         //         "HTML",
         //         "JavaScript",
         //         "WordPress",
         //         "PHP"
         //     ],
-        //     "github": "https://github.com/shahabahmed3339/map-project"
+        //     github: "https://github.com/shahabahmed3339/map-project"
         // },
         // {
-        //     "title": "Video Play Module",
-        //     "description": "Lightweight Python project for selecting and playing local videos via simple menu scripts.",
-        //     "techList": [
+        //     title: "Video Play Module",
+        //     description: "Lightweight Python project for selecting and playing local videos via simple menu scripts.",
+        //     techList: [
         //         "Python",
         //         "Raspberry Pi"
         //     ],
-        //     "github": "https://github.com/shahabahmed3339/videoPlayModule"
+        //     github: "https://github.com/shahabahmed3339/videoPlayModule"
         // },
         {
-            "title": "Risk Management",
-            "description": "Lightweight risk management web app (React frontend + Express/MongoDB backend).",
-            "techList": [
+            title: "Risk Management",
+            description: "Lightweight risk management web app (React frontend + Express/MongoDB backend).",
+            techList: [
                 "HTML",
                 "CSS",
                 "JavaScript",
@@ -225,9 +226,9 @@ export const data = {
             github: "https://github.com/shahabahmed3339/riskmanagement"
         },
         // {
-        //     "title": "KBL RMS",
-        //     "description": "Lightweight Risk Management System (RMS) — fullstack MERN-style app with a React client and an Express/MongoDB server.",
-        //     "techList": [
+        //     title: "KBL RMS",
+        //     description: "Lightweight Risk Management System (RMS) — fullstack MERN-style app with a React client and an Express/MongoDB server.",
+        //     techList: [
         //         "HTML",
         //         "CSS",
         //         "JavaScript",
@@ -236,46 +237,48 @@ export const data = {
         //         "Express.js",
         //         "MongoDB"
         //     ],
-        //     "github": "https://github.com/shahabahmed3339/kbl-rms"
+        //     github: "https://github.com/shahabahmed3339/kbl-rms"
         // },
         // {
-        //     "title": "Flask App",
-        //     "description": "Minimal Flask app for webcam streaming and related frontend assets with React frontend.",
-        //     "techList": [
+        //     title: "Flask App",
+        //     description: "Minimal Flask app for webcam streaming and related frontend assets with React frontend.",
+        //     techList: [
         //         "React.js",
         //         "Flask",
         //         "Python",
         //         "HTML",
         //         "CSS"
         //     ],
-        //     "github": "https://github.com/shahabahmed3339/Flask-Project"
+        //     github: "https://github.com/shahabahmed3339/Flask-Project"
         // },
         {
-            "title": "AMS - Automated Monitoring System",
-            "description": "A comprehensive face detection and recognition system built with Python, featuring multiple deep learning models and a Django web application for business use.",
-            "techList": [
+            title: "AMS - AI-Powered Automated Monitoring System",
+            description: "An AI-powered face detection and recognition system built with Python, OpenCV, and deep learning models, integrated with a Django web application for automated attendance and monitoring.",
+            techList: [
                 "Python",
                 "Django",
                 "OpenCV",
+                "Deep Learning",
+                "Computer Vision",
                 "MongoDB"
             ],
             github: "https://github.com/shahabahmed3339/AMS"
         },
         // {
-        //     "title": "Portfolio",
-        //     "description": "A responsive portfolio website built with React + Vite and Tailwind CSS.",
-        //     "techList": [
+        //     title: "Portfolio",
+        //     description: "A responsive portfolio website built with React + Vite and Tailwind CSS.",
+        //     techList: [
         //         "React.js",
         //         "Vite",
         //         "Tailwind CSS",
         //         "JavaScript"
         //     ],
-        //     "github": "https://github.com/shahabahmed3339/Portfolio"
+        //     github: "https://github.com/shahabahmed3339/Portfolio"
         // },
         {
-            "title": "Portfolio",
-            "description": "A responsive portfolio website built with React and CSS, showcasing my projects, experience, and skills in a modern design.",
-            "techList": [
+            title: "Portfolio",
+            description: "A responsive portfolio website built with React and CSS, showcasing my projects, experience, and skills in a modern design.",
+            techList: [
                 "React.js",
                 "HTML",
                 "CSS",
@@ -284,20 +287,20 @@ export const data = {
             github: "https://github.com/shahabahmed3339/Portfolio-v2"
         },
         // {
-        //     "title": "Resume Template",
-        //     "description": "Production-ready A4 resume template built with React + Vite and plain CSS.",
-        //     "techList": [
+        //     title: "Resume Template",
+        //     description: "Production-ready A4 resume template built with React + Vite and plain CSS.",
+        //     techList: [
         //         "React.js",
         //         "Vite",
         //         "CSS",
         //         "TypeScript"
         //     ],
-        //     "github": "https://github.com/shahabahmed3339/resume-template"
+        //     github: "https://github.com/shahabahmed3339/resume-template"
         // },
         {
-            "title": "Expense Tracker",
-            "description": "A Next.js expense tracking app with budgets, expenses, loans, persons, splits, authentication, Prisma, and PWA support.",
-            "techList": [
+            title: "Expense Tracker",
+            description: "A Next.js expense tracking app with budgets, expenses, loans, persons, splits, authentication, Prisma, and PWA support.",
+            techList: [
                 "React.js",
                 "HTML",
                 "CSS",
@@ -308,11 +311,6 @@ export const data = {
     ],
 
     technologies: [
-        {
-            title: "Python",
-            icon: "/assets/python.svg",
-            category: "Backend Engineering"
-        },
         {
             title: "Node.js",
             icon: "/assets/node-icon.svg",
@@ -455,7 +453,26 @@ export const data = {
             title: "Tailwind",
             icon: "/assets/tailwind-icon.svg",
             category: "Frontend Engineering"
-        }
+        },
+
+        // AI
+        {
+            title: "Python",
+            icon: "/assets/python.svg",
+            category: "AI & Emerging Technologies"
+        },
+        {
+            title: "LLM Integration",
+            category: "AI & Emerging Technologies"
+        },
+        {
+            title: "AI Agents",
+            category: "AI & Emerging Technologies"
+        },
+        {
+            title: "Deep Learning",
+            category: "AI & Emerging Technologies"
+        },
     ],
 
     skills: [
@@ -483,7 +500,7 @@ export const data = {
         "Decision Making",
         "Continuous Learning"
     ],
-    // "interests": [
+    // interests: [
     //     "Basketball",
     //     "Badminton",
     //     "Table Tennis",
@@ -496,7 +513,7 @@ export const data = {
     //     "Tech Innovation",
     //     "Developer Communities"
     // ],
-    "languages": [
+    languages: [
         "English - Professional",
         "Urdu - Native",
         "Punjabi - Native"
