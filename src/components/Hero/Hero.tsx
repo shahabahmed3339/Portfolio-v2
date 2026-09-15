@@ -1,6 +1,6 @@
 import { BrowserRouter } from "react-router-dom"
 import { Container } from "./styles"
-import ScrollAnimation from "react-animate-on-scroll"
+import { Reveal } from "../Reveal/Reveal"
 import { NavHashLink } from "react-router-hash-link"
 import { Links } from "../Links/links";
 
@@ -12,31 +12,31 @@ export function Hero({ head }: HeroProps) {
   return (
     <Container id="home">
       <div className="hero-text">
-        <ScrollAnimation animateIn="fadeInUp">
+        <Reveal animateIn="fadeInUp">
           <p>Hello <img src="/assets/Hello.gif" alt="Hello" width="20px" />, I'm</p>
-        </ScrollAnimation>
-        <ScrollAnimation animateIn="fadeInUp" delay={0.2 * 1000}>
+        </Reveal>
+        <Reveal animateIn="fadeInUp" delay={200}>
           <h1>{head.name}</h1>
-        </ScrollAnimation>
-        <ScrollAnimation animateIn="fadeInUp" delay={0.4 * 1000}>
+        </Reveal>
+        <Reveal animateIn="fadeInUp" delay={400}>
           <h3>{head.title}</h3>
-        </ScrollAnimation>
-        <ScrollAnimation animateIn="fadeInUp" delay={0.6 * 1000}>
+        </Reveal>
+        <Reveal animateIn="fadeInUp" delay={600}>
           <p className="small-resume">{head.totalExperience}+ Year{head.totalExperience > 1 ? 's' : ''} Experience</p>
-        </ScrollAnimation>
-        <ScrollAnimation animateIn="fadeInUp" delay={0.8 * 1000}>
+        </Reveal>
+        <Reveal animateIn="fadeInUp" delay={800}>
           <BrowserRouter>
             <NavHashLink smooth to="#contact" className="button">Contact</NavHashLink>
           </BrowserRouter>
-        </ScrollAnimation>
-        <ScrollAnimation animateIn="fadeInUp" delay={1 * 1000}>
+        </Reveal>
+        <Reveal animateIn="fadeInUp" delay={1000}>
           <Links links={head.links} />
-        </ScrollAnimation>
+        </Reveal>
       </div>
       <div className="hero-image">
-        <ScrollAnimation animateIn="fadeInRight" delay={1 * 1000}>
+        <Reveal animateIn="fadeInRight" delay={1000}>
           <img src="/assets/developer.png" alt="Developer" />
-        </ScrollAnimation>
+        </Reveal>
       </div>
     </Container>
   )

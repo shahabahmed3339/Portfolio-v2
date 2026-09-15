@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AdminPanel, AdminStatus } from "./styles";
+import { AdminButton, AdminFormField, AdminFormGrid, AdminPanel, AdminStatus } from "./styles";
 
 const FIELDS: { name: string; label: string; number?: boolean }[] = [
   { name: "name", label: "Name" },
@@ -76,40 +76,23 @@ export function ProfileEditor() {
       {error ? <AdminStatus style={{ color: "#e31f71" }}>{error}</AdminStatus> : null}
       {message ? <AdminStatus style={{ color: "#4B8BBE" }}>{message}</AdminStatus> : null}
 
-      <form onSubmit={handleSubmit} style={{ display: "grid", gap: "1.4rem", maxWidth: "560px" }}>
+      <AdminFormGrid onSubmit={handleSubmit}>
         {FIELDS.map((field) => (
-          <label
-            key={field.name}
-            style={{ display: "flex", flexDirection: "column", gap: "0.5rem", fontSize: "1.3rem" }}
-          >
+          <AdminFormField key={field.name}>
             {field.label}
             <input
               type={field.number ? "number" : "text"}
               value={values[field.name] ?? ""}
               onChange={(e) => setValues({ ...values, [field.name]: e.target.value })}
-              style={{
-                background: "transparent",
-                border: "1px solid rgba(255,255,255,0.25)",
-                borderRadius: "0.8rem",
-                padding: "1rem 1.2rem",
-                color: "inherit",
-                fontSize: "1.4rem",
-                fontFamily: "inherit",
-                outline: "none",
-              }}
             />
-          </label>
+          </AdminFormField>
         ))}
         <div>
-          <button
-            type="submit"
-            disabled={saving}
-            style={{ padding: "1rem 1.8rem", fontSize: "1.4rem", border: "none", borderRadius: "2rem", background: "#016fb9", color: "#fff", cursor: "pointer" }}
-          >
+          <AdminButton type="submit" disabled={saving}>
             {saving ? "Saving..." : "Save profile"}
-          </button>
+          </AdminButton>
         </div>
-      </form>
+      </AdminFormGrid>
     </AdminPanel>
   );
 }

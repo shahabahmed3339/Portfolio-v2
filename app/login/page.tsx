@@ -3,7 +3,14 @@
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AdminCard, AdminError, AdminField, AdminLoginWrapper, AdminRoot } from "@/components/admin/styles";
+import {
+  AdminCard,
+  AdminError,
+  AdminField,
+  AdminLoginWrapper,
+  AdminRoot,
+  AdminTextButton,
+} from "@/components/admin/styles";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -84,13 +91,9 @@ export default function LoginPage() {
               />
             </AdminField>
 
-            <button
-              type="button"
-              onClick={() => setShowPassword((v) => !v)}
-              style={{ background: "transparent", border: "none", color: "inherit", opacity: 0.7, padding: 0, fontSize: "1.3rem", width: "fit-content", cursor: "pointer" }}
-            >
+            <AdminTextButton type="button" onClick={() => setShowPassword((v) => !v)}>
               {showPassword ? "Hide password" : "Show password"}
-            </button>
+            </AdminTextButton>
 
             <button type="submit" disabled={pending}>
               {pending ? "Signing in..." : "Sign in"}

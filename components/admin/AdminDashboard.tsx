@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ResourceTable, type FieldConfig } from "./ResourceTable";
 import { ProfileEditor } from "./ProfileEditor";
-import { AdminHeader, AdminRoot, AdminStatus, AdminTabBar } from "./styles";
+import { AdminHeader, AdminPage, AdminStatus, AdminTabBar } from "./styles";
 
 interface Tab {
   key: string;
@@ -125,9 +125,9 @@ export function AdminDashboard() {
 
   if (status === "loading") {
     return (
-      <AdminRoot>
-        <AdminStatus style={{ padding: "8rem 2rem" }}>Checking session...</AdminStatus>
-      </AdminRoot>
+      <AdminPage>
+        <AdminStatus>Checking session...</AdminStatus>
+      </AdminPage>
     );
   }
 
@@ -136,7 +136,7 @@ export function AdminDashboard() {
   const activeTab = TABS.find((tab) => tab.key === active);
 
   return (
-    <AdminRoot style={{ padding: "8rem 2rem 4rem" }}>
+    <AdminPage>
       <AdminHeader>
         <h1>Portfolio admin</h1>
         <div className="actions">
@@ -179,6 +179,6 @@ export function AdminDashboard() {
           fields={activeTab.fields}
         />
       ) : null}
-    </AdminRoot>
+    </AdminPage>
   );
 }

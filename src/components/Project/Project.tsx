@@ -1,5 +1,5 @@
 import { Container } from "./styles";
-import ScrollAnimation from "react-animate-on-scroll";
+import { Reveal } from "../Reveal/Reveal";
 
 interface ProjectProps {
   projects: any;
@@ -11,7 +11,7 @@ export function Project({ projects }: ProjectProps) {
       <h2>My Projects</h2>
       <div className="projects">
         {projects.map((project: any) => (
-          <ScrollAnimation key={project.title} animateIn="flipInX">
+          <Reveal key={project.title} animateIn="flipInX">
             <div className="project">
               <header>
                 <svg width="50" xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 24 24" fill="none" stroke="#6e5494" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
@@ -39,7 +39,7 @@ export function Project({ projects }: ProjectProps) {
                 </ul>
               </footer>
             </div>
-          </ScrollAnimation>
+          </Reveal>
         ))}
       </div>
     </Container>

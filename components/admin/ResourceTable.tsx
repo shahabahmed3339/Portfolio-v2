@@ -2,11 +2,13 @@
 
 import { useCallback, useEffect, useState } from "react";
 import {
+  AdminFormField,
   AdminModalCard,
   AdminModalOverlay,
   AdminPanel,
   AdminStatus,
   AdminTable,
+  AdminTableScroll,
   AdminToolbar,
 } from "./styles";
 
@@ -171,33 +173,47 @@ export function ResourceTable({ resource, title, fields }: ResourceTableProps) {
       ) : rows.length === 0 ? (
         <AdminStatus>No items yet. Click “Add” to create one.</AdminStatus>
       ) : (
-        <AdminTable>
-          <thead>
-            <tr>
-              {tableFields.map((field) => (
-                <th key={field.name}>{field.label}</th>
-              ))}
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row) => (
-              <tr key={row.id}>
+        <AdminTableScroll>
+          <AdminTable>
+            <thead>
+              <tr>
                 {tableFields.map((field) => (
-                  <td key={field.name}>{renderCell(row[field.name])}</td>
+                  <th key={field.name}>{field.label}</th>
                 ))}
-                <td className="actions">
-                  <button type="button" onClick={() => openEdit(row)}>
-                    Edit
-                  </button>
-                  <button type="button" className="danger" onClick={() => handleDelete(row)}>
-                    Delete
-                  </button>
-                </td>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </AdminTable>
+            </thead>
+            <tbody>
+              {rows.map((row) => (
+                <tr key={row.id}>
+                  {tableFields.map((field) => (
+                    /* data-label is used as the row heading when the table
+                       collapses into cards on phone-sized screens. */
+                    <td key={field.name} data-label={field.label}>
+                      {renderCell(row[field.name])}
+                    </td>
+                  ))}
+                  <td className="actions">
+                    {/* Wrapper keeps the cell itself a table-cell so the row
+                        border stays aligned with the other columns. */}
+                    <div className="actions-inner">
+                      <button type="button" onClick={() => openEdit(row)}>
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        className="danger"
+                        onClick={() => handleDelete(row)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </AdminTable>
+        </AdminTableScroll>
       )}
 
       {draft ? (
@@ -208,10 +224,11 @@ export function ResourceTable({ resource, title, fields }: ResourceTableProps) {
             </h2>
             <form onSubmit={handleSubmit}>
               {fields.map((field) => (
-                <label key={field.name} style={{ display: "flex", flexDirection: "column", gap: "0.5rem", fontSize: "1.3rem" }}>
+                <AdminFormField key={field.name}>
                   {field.label}
                   {fieldType(field) === "textarea" || fieldType(field) === "list" ? (
                     <textarea
+                      rows={fieldType(field) === "list" ? 8 : 4}
                       value={String(draft[field.name] ?? "")}
                       placeholder={field.placeholder}
                       onChange={(e) => setDraft({ ...draft, [field.name]: e.target.value })}
@@ -232,7 +249,7 @@ export function ResourceTable({ resource, title, fields }: ResourceTableProps) {
                       onChange={(e) => setDraft({ ...draft, [field.name]: e.target.value })}
                     />
                   )}
-                </label>
+                </AdminFormField>
               ))}
 
               <div className="modal-actions">
