@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ResourceTable, type FieldConfig } from "./ResourceTable";
 import { ProfileEditor } from "./ProfileEditor";
+import { JobsManager } from "./JobsManager";
+import { ResumeVersionsPanel } from "./ResumeVersionsPanel";
 import { AdminHeader, AdminPage, AdminStatus, AdminTabBar } from "./styles";
 
 interface Tab {
@@ -14,6 +16,15 @@ interface Tab {
   resource: string;
   fields: FieldConfig[];
 }
+
+/**
+ * Tabs that render a bespoke component instead of the generic ResourceTable.
+ * Kept separate so the existing data-driven tabs are untouched.
+ */
+const CUSTOM_TABS = [
+  { key: "jobs", label: "Jobs" },
+  { key: "resume-versions", label: "Resume versions" },
+] as const;
 
 const TABS: Tab[] = [
   {
@@ -157,6 +168,16 @@ export function AdminDashboard() {
         >
           Head / Profile
         </button>
+        {CUSTOM_TABS.map((tab) => (
+          <button
+            key={tab.key}
+            type="button"
+            className={active === tab.key ? "active" : ""}
+            onClick={() => setActive(tab.key)}
+          >
+            {tab.label}
+          </button>
+        ))}
         {TABS.map((tab) => (
           <button
             key={tab.key}
@@ -171,6 +192,10 @@ export function AdminDashboard() {
 
       {active === "profile" ? (
         <ProfileEditor />
+      ) : active === "jobs" ? (
+        <JobsManager />
+      ) : active === "resume-versions" ? (
+        <ResumeVersionsPanel />
       ) : activeTab ? (
         <ResourceTable
           key={activeTab.key}

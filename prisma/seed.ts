@@ -3,6 +3,7 @@ import { hash } from "bcryptjs";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { toRootRelativeAsset } from "../server/assets/asset-path";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -164,15 +165,15 @@ async function main() {
     name: keep(requiredStr(head.name), existing?.name, "Your Name"),
     title: keep(requiredStr(head.title), existing?.title, "Your Title"),
     totalExperience: num(head.totalExperience, existing?.totalExperience ?? 0),
-    profile: keep(str(head.profile), existing?.profile, null),
+    profile: keep(toRootRelativeAsset(head.profile), existing?.profile, null),
     location: keep(str(head.location), existing?.location, null),
     phone: keep(str(head.phone), existing?.phone, null),
     email: keep(str(head.email), existing?.email, null),
     linkedIn: keep(str(head.linkedIn), existing?.linkedIn, null),
     github: keep(str(head.github), existing?.github, null),
     portfolio: keep(str(head.portfolio), existing?.portfolio, null),
-    backgroundVideo: keep(str(data.backgroundVideo), existing?.backgroundVideo, null),
-    resume: keep(str(data.resume), existing?.resume, null),
+    backgroundVideo: keep(toRootRelativeAsset(data.backgroundVideo), existing?.backgroundVideo, null),
+    resume: keep(toRootRelativeAsset(data.resume), existing?.resume, null),
   };
   const profile = existing
     ? await prisma.profile.update({ where: { id: existing.id }, data: profileData })
@@ -193,7 +194,7 @@ async function main() {
         profileId: profile.id,
         title: requiredStr(l.title) as string,
         url: requiredStr(l.url) as string,
-        icon: str(l.icon),
+        icon: toRootRelativeAsset(l.icon) ?? null,
         sortOrder: i,
       }))
       .filter((l) => l.title && l.url);
@@ -220,7 +221,7 @@ async function main() {
     const experience = asArray(data.experience)
       .filter(isObject)
       .map((e) => ({
-        image: str(e.image),
+        image: toRootRelativeAsset(e.image) ?? null,
         title: requiredStr(e.title) as string,
         company: requiredStr(e.company) as string,
         description: str(e.description),
@@ -243,7 +244,7 @@ async function main() {
     const education = asArray(data.education)
       .filter(isObject)
       .map((e) => ({
-        image: str(e.image),
+        image: toRootRelativeAsset(e.image) ?? null,
         title: requiredStr(e.title) as string,
         institute: requiredStr(e.institute) as string,
         location: str(e.location),
@@ -287,7 +288,7 @@ async function main() {
       .filter(isObject)
       .map((t) => ({
         title: requiredStr(t.title) as string,
-        icon: str(t.icon),
+        icon: toRootRelativeAsset(t.icon) ?? null,
         category: str(t.category) ?? "Other",
         sortOrder: 0,
       }))
@@ -349,6 +350,20 @@ async function main() {
   }
 
   console.log("[seed] content seed complete.");
+
+  // --- Canonical resume mirror ---------------------------------------------
+  // Stores a database identity for the canonical resume so the admin UI can
+  // reference "the default resume" explicitly. `src/data.js` remains the source
+  // of truth: this row is derived from it and is refreshed, never authored.
+  // It has jobId = NULL, which is what distinguishes it from tailored resumes.
+  try {
+    const { ensureCanonicalResumeVersion } = await import("../server/services/resume.service");
+    const canonical = await ensureCanonicalResumeVersion();
+    console.log(`[seed] canonical resume version: ${canonical.id} (slug: ${canonical.slug})`);
+  } catch (error) {
+    // Never fail the seed because of the optional resume mirror.
+    console.warn(`[seed] canonical resume mirror skipped: ${(error as Error).message}`);
+  }
 }
 
 main()

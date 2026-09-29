@@ -1,4 +1,6 @@
 import { prisma } from "@/server/db/client";
+import { toRootRelativeAsset } from "@/server/assets/asset-path";
+import { getActiveResume } from "@/server/services/resume.service";
 
 /** Ensure a singleton Profile row exists and return it. */
 export async function ensureProfile() {
@@ -37,6 +39,35 @@ export interface PortfolioData {
 
 /** Reads the whole portfolio out of the DB in the exact shape the site expects. */
 export async function getPortfolioData(): Promise<PortfolioData> {
+  const content = await readContentFromDb();
+
+  // Resume resolution is layered on top of the existing content read. When no
+  // tailored resume has been explicitly published this returns the canonical
+  // resume from src/data.js, so the portfolio behaves exactly as before.
+  try {
+    const { resume } = await getActiveResume();
+    return {
+      ...content,
+      resume: content.resume || resume.resume,
+      head: { ...content.head, links: resume.head.links.length ? resume.head.links : content.head.links },
+      about: resume.about,
+      experience: resume.experience,
+      education: resume.education,
+      projects: resume.projects,
+      technologies: resume.technologies,
+      skills: resume.skills,
+      interests: resume.interests,
+      languages: resume.languages,
+    };
+  } catch (error) {
+    // Never let resume resolution break the portfolio.
+    console.error("[portfolio] resume overlay failed; serving database content as-is.", error);
+    return content;
+  }
+}
+
+/** Reads the portfolio content tables exactly as before this feature was added. */
+async function readContentFromDb(): Promise<PortfolioData> {
   const profile = await ensureProfile();
 
   const [links, about, experience, education, projects, technologies, skills, interests, languages] =
@@ -53,24 +84,28 @@ export async function getPortfolioData(): Promise<PortfolioData> {
     ]);
 
   return {
-    backgroundVideo: profile.backgroundVideo ?? "",
-    resume: profile.resume ?? "",
+    backgroundVideo: toRootRelativeAsset(profile.backgroundVideo) ?? "",
+    resume: toRootRelativeAsset(profile.resume) ?? "",
     head: {
       name: profile.name,
       title: profile.title,
       totalExperience: profile.totalExperience,
-      profile: profile.profile ?? "",
+      profile: toRootRelativeAsset(profile.profile) ?? "",
       location: profile.location ?? "",
       phone: profile.phone ?? "",
       email: profile.email ?? "",
       linkedIn: profile.linkedIn ?? "",
       github: profile.github ?? "",
       portfolio: profile.portfolio ?? "",
-      links: links.map((l) => ({ title: l.title, url: l.url, icon: l.icon ?? "" })),
+      links: links.map((l) => ({
+        title: l.title,
+        url: l.url,
+        icon: toRootRelativeAsset(l.icon) ?? "",
+      })),
     },
     about: about.map((a) => a.text),
     experience: experience.map((e) => ({
-      image: e.image,
+      image: toRootRelativeAsset(e.image) ?? undefined,
       title: e.title,
       company: e.company,
       description: e.description,
@@ -80,7 +115,7 @@ export async function getPortfolioData(): Promise<PortfolioData> {
       accomplishments: e.accomplishments,
     })),
     education: education.map((e) => ({
-      image: e.image,
+      image: toRootRelativeAsset(e.image) ?? undefined,
       title: e.title,
       institute: e.institute,
       location: e.location,
@@ -98,7 +133,7 @@ export async function getPortfolioData(): Promise<PortfolioData> {
     })),
     technologies: technologies.map((t) => ({
       title: t.title,
-      icon: t.icon ?? undefined,
+      icon: toRootRelativeAsset(t.icon),
       category: t.category,
     })),
     skills: skills.map((s) => s.title),
