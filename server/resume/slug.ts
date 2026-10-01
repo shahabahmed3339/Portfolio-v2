@@ -49,11 +49,13 @@ export function jobSlugBase(companyName: string, jobTitle: string): string {
   return slugify(`${companyName} ${jobTitle}`);
 }
 
-/** Builds the base slug for a resume version, e.g. "acme-senior-frontend-developer-v2". */
-export function resumeVersionSlugBase(
-  companyName: string,
-  jobTitle: string,
-  version: number,
-): string {
-  return slugify(`${companyName} ${jobTitle} v${version}`);
+/**
+ * Builds the base slug for a resume version from the job's id.
+ *
+ * A tailored resume is a property of exactly one job, so its public URL is
+ * derived from that job's id rather than from free text: the slug stays short,
+ * stable across job renames, and can never collide with another job's slug.
+ */
+export function resumeVersionSlugBase(jobId: string): string {
+  return slugify(jobId);
 }

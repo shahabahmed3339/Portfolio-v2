@@ -1,6 +1,7 @@
 import { prisma } from "@/server/db/client";
 import { toRootRelativeAsset } from "@/server/assets/asset-path";
 import { getCanonicalResume } from "@/server/resume/canonical-resume";
+import { toPlainResumeText } from "@/server/resume/plain-text";
 import { resumeSchema, type Resume } from "@/server/resume/resume-schema";
 import { TailorError, tailorResumeForJob } from "@/server/ai/ai-client";
 import { createResumeVersion } from "./resume.service";
@@ -57,15 +58,48 @@ export async function generateTailoredResume(jobId: string): Promise<GenerateRes
   // The AI only ever rewrites content. Identity, contact details and asset
   // paths are taken from the canonical resume verbatim, so a tailored resume
   // can never point at different assets or claim a different person.
+  //
+  // Every AI-authored string is passed through `toPlainResumeText` first: the
+  // resume renders as plain text, so markdown the model emits (**bold**, lists,
+  // [links](url)) would otherwise show up as literal markup.
   const merged: Resume = resumeSchema.parse({
     ...canonical,
-    about: output.about.length ? output.about : canonical.about,
-    experience: output.experience.length ? output.experience : canonical.experience,
-    education: output.education.length ? output.education : canonical.education,
-    projects: output.projects.length ? output.projects : canonical.projects,
-    skills: output.skills.length ? output.skills : canonical.skills,
-    languages: output.languages.length ? output.languages : canonical.languages,
-    interests: output.interests.length ? output.interests : canonical.interests,
+    about: output.about.length ? output.about.map(toPlainResumeText) : canonical.about,
+    experience: output.experience.length
+      ? output.experience.map((entry) => ({
+          ...entry,
+          title: toPlainResumeText(entry.title),
+          company: toPlainResumeText(entry.company),
+          description: entry.description ? toPlainResumeText(entry.description) : entry.description,
+          location: entry.location ? toPlainResumeText(entry.location) : entry.location,
+          accomplishments: entry.accomplishments.map(toPlainResumeText),
+        }))
+      : canonical.experience,
+    education: output.education.length
+      ? output.education.map((entry) => ({
+          ...entry,
+          title: toPlainResumeText(entry.title),
+          institute: toPlainResumeText(entry.institute),
+          location: entry.location ? toPlainResumeText(entry.location) : entry.location,
+          cgpa: entry.cgpa ? toPlainResumeText(entry.cgpa) : entry.cgpa,
+          thesis: entry.thesis ? toPlainResumeText(entry.thesis) : entry.thesis,
+        }))
+      : canonical.education,
+    projects: output.projects.length
+      ? output.projects.map((project) => ({
+          ...project,
+          title: toPlainResumeText(project.title),
+          description: toPlainResumeText(project.description),
+          techList: project.techList.map(toPlainResumeText),
+        }))
+      : canonical.projects,
+    skills: output.skills.length ? output.skills.map(toPlainResumeText) : canonical.skills,
+    languages: output.languages.length
+      ? output.languages.map(toPlainResumeText)
+      : canonical.languages,
+    interests: output.interests.length
+      ? output.interests.map(toPlainResumeText)
+      : canonical.interests,
     // Technology icons are local assets the AI has no knowledge of; carry the
     // canonical icon across by title and keep the AI's ordering/categories.
     // Normalised on the way out because a tailored resume is also served from a
@@ -74,7 +108,12 @@ export async function generateTailoredResume(jobId: string): Promise<GenerateRes
       const canonicalMatch = canonical.technologies.find(
         (t) => t.title.toLowerCase() === tech.title.toLowerCase(),
       );
-      return { ...tech, icon: toRootRelativeAsset(canonicalMatch?.icon) };
+      return {
+        ...tech,
+        title: toPlainResumeText(tech.title),
+        category: toPlainResumeText(tech.category),
+        icon: toRootRelativeAsset(canonicalMatch?.icon),
+      };
     }),
   });
 

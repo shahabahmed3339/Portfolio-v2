@@ -19,14 +19,14 @@ export const AdminRoot = styled.div`
 
 /** Page padding for the admin dashboard (drop-in replacement for AdminRoot). */
 export const AdminPage = styled(AdminRoot)`
-  padding: 8rem 2rem 4rem;
+  padding: 3.2rem 3.2rem 6rem;
 
   @media (max-width: 900px) {
-    padding: 5rem 1.6rem 3rem;
+    padding: 2.4rem 1.8rem 4rem;
   }
 
   @media (max-width: 640px) {
-    padding: 3.2rem 1.4rem 2.4rem;
+    padding: 1.8rem 1.2rem 3rem;
   }
 `;
 
@@ -137,7 +137,7 @@ export const AdminHeader = styled.header`
   align-items: center;
   justify-content: space-between;
   gap: 1.6rem;
-  margin-bottom: 2.4rem;
+  margin-bottom: 2rem;
   flex-wrap: wrap;
 
   h1 {
@@ -168,7 +168,7 @@ export const AdminHeader = styled.header`
   @media (max-width: 640px) {
     align-items: flex-start;
     gap: 1rem;
-    margin-bottom: 1.8rem;
+    margin-bottom: 1.4rem;
 
     h1 {
       font-size: 2rem;
@@ -186,7 +186,7 @@ export const AdminHeader = styled.header`
 export const AdminTabBar = styled.nav`
   display: flex;
   gap: 0.6rem;
-  margin-bottom: 2.4rem;
+  margin-bottom: 2rem;
   flex-wrap: wrap;
 
   button {
@@ -198,6 +198,11 @@ export const AdminTabBar = styled.nav`
     color: inherit;
     cursor: pointer;
     white-space: nowrap;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.4);
+    }
 
     &.active {
       background-color: #e31f71;
@@ -215,7 +220,7 @@ export const AdminTabBar = styled.nav`
     overflow-y: hidden;
     width: 100%;
     max-width: 100%;
-    margin-bottom: 1.8rem;
+    margin-bottom: 1.6rem;
     padding-bottom: 0.8rem;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
@@ -259,8 +264,17 @@ export const AdminPanel = styled.section`
 
 export const AdminToolbar = styled.div`
   display: flex;
+  align-items: center;
   justify-content: flex-end;
+  gap: 1.2rem;
   margin-bottom: 1.6rem;
+  flex-wrap: wrap;
+
+  /* A toolbar's first child (e.g. a show-archived toggle) is pushed left so
+     the primary action stays on the right and the row spans the panel. */
+  > :first-child:not(:only-child) {
+    margin-right: auto;
+  }
 
   button {
     padding: 0.9rem 1.6rem;
@@ -270,6 +284,9 @@ export const AdminToolbar = styled.div`
     background-color: #016fb9;
     color: #fff;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   @media (max-width: 640px) {
@@ -291,12 +308,15 @@ export const AdminTableScroll = styled.div`
 `;
 
 export const AdminTable = styled.table`
-  /* Auto layout so each column gets the width it needs and the reserved
-     Actions width is respected. The min-width keeps the table filling the
-     panel when the content is narrow; the scroll wrapper handles any overflow
-     rather than clipping the last column. */
-  width: auto;
-  min-width: 100%;
+  /*
+   * The table always fills its container instead of shrink-wrapping to its
+   * content. With an auto width the browser squeezes every column down to its
+   * minimum, which slices ordinary text into one-or-two-character lines
+   * ("Viewa / ble", "Oct 1, / 2026"). Filling the width gives every column
+   * real space to lay its content out on one line.
+   */
+  width: 100%;
+  min-width: 0;
   border-collapse: collapse;
   font-size: 1.4rem;
   table-layout: auto;
@@ -307,9 +327,10 @@ export const AdminTable = styled.table`
     padding: 1rem 1.2rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     vertical-align: top;
-    /* Break long unbroken strings (URLs, etc.) instead of overflowing. */
-    overflow-wrap: anywhere;
-    word-break: break-word;
+    /* Wrap on word boundaries; only break a truly unbreakable token (a long
+       URL or a cuid) rather than every word. */
+    overflow-wrap: break-word;
+    word-break: normal;
   }
 
   th {
@@ -322,14 +343,55 @@ export const AdminTable = styled.table`
     word-break: normal;
   }
 
-  /* The Actions column holds two buttons side by side. The width is reserved
-     on the header and the cell together so the fixed layout gives this column
-     real space instead of squeezing it to a few pixels. The cell must stay a
-     table-cell: switching it to flex would drop it out of the table layout and
-     break the row border alignment. */
+  tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+  }
+
+  /*
+   * URL columns are the main space waster. A custom-domain link is a single
+   * long unbreakable token, so given any free width the browser hands it ALL
+   * of it (measured: 596px of a 1495px table on GitHub URLs) while the columns
+   * that actually carry meaning get squeezed and wrap onto many lines. Capping
+   * them keeps the table's width with the content that deserves it.
+   */
+  td[data-label*="URL"],
+  td[data-label*="Url"],
+  td[data-label*="url"],
+  td[data-label*="GitHub"],
+  td[data-label*="Live"],
+  td[data-label*="Link"] {
+    max-width: 24rem;
+  }
+
+  /* A single-line clamp for long, low-value values (URLs, ids). The full value
+     stays available via the cell's title attribute. */
+  td.clamp {
+    max-width: 26rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  tbody td a {
+    color: #4b8bbe;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  /*
+   * Columns that hold short, fixed-shape values (dates, counts, statuses) are
+   * told not to wrap, so they stay on one line and keep their natural width.
+   * The remaining columns absorb whatever space is left.
+   */
   th:last-child,
   td.actions {
-    width: 190px;
+    /* The Actions column sizes to its buttons; the buttons themselves wrap
+       onto a second line when the column runs out of room, instead of
+       overlapping the neighbouring column. */
+    width: 1%;
     white-space: nowrap;
     overflow-wrap: normal;
     word-break: normal;
@@ -337,11 +399,15 @@ export const AdminTable = styled.table`
 
   td.actions {
     /* Inner flex row keeps the buttons laid out without taking the cell out
-       of the table. */
+       of the table. flex-wrap is the key change: four actions (View, Edit,
+       Set as default, Delete) are wider than the column, so they wrap rather
+       than spill over the columns to the left. */
     > .actions-inner {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 0.8rem;
+      justify-content: flex-end;
+      gap: 0.6rem;
     }
 
     button {
@@ -361,10 +427,10 @@ export const AdminTable = styled.table`
     }
   }
 
-  /* Narrow tablet/small-laptop: keep the tabular layout readable by scrolling
-     sideways, but never in the phone range where we switch to cards. */
-  @media (min-width: 641px) and (max-width: 900px) {
-    min-width: 720px;
+  /* Narrow tablet/small-laptop: the table keeps its tabular layout and the
+     scroll wrapper handles the overflow. */
+  @media (min-width: 641px) and (max-width: 1100px) {
+    min-width: 820px;
   }
 
   /*
@@ -462,11 +528,11 @@ export const AdminTable = styled.table`
 export const AdminModalOverlay = styled.div`
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.68);
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: 6rem 2rem;
+  padding: 4rem 2rem;
   overflow-y: auto;
   z-index: 50;
   -webkit-overflow-scrolling: touch;
@@ -479,16 +545,26 @@ export const AdminModalOverlay = styled.div`
 `;
 
 export const AdminModalCard = styled.div`
+  /* Forms stay a comfortable reading width; detail views opt into the wide
+     variant below because they are mostly a data grid. */
   width: 100%;
-  max-width: 640px;
+  max-width: 680px;
   background-color: #212121;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 1.2rem;
   padding: 2.4rem;
 
+  /* Wide variant: used by the job detail dialog, which holds a description,
+     a metadata grid and a versions table and reads badly in a narrow column. */
+  &.wide {
+    max-width: 1100px;
+  }
+
   h2 {
     font-size: 2rem;
     margin-bottom: 1.8rem;
+    /* Long company — job title headings must not push the modal wider. */
+    overflow-wrap: break-word;
   }
 
   form {
@@ -528,9 +604,12 @@ export const AdminModalCard = styled.div`
 
   .modal-actions {
     display: flex;
+    flex-wrap: wrap;
     justify-content: flex-end;
     gap: 1rem;
     margin-top: 0.8rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 
     button {
       padding: 1rem 1.8rem;
@@ -540,6 +619,9 @@ export const AdminModalCard = styled.div`
       background-color: #016fb9;
       color: #fff;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     button.cancel {
@@ -640,6 +722,9 @@ export const AdminButton = styled.button`
   background-color: #016fb9;
   color: #fff;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
   &:disabled {
     filter: brightness(0.6);
@@ -651,21 +736,90 @@ export const AdminButton = styled.button`
   }
 `;
 
+/**
+ * Inline spinner shown inside a button while its action is in flight.
+ *
+ * Inherits `currentColor` so it works on every button variant (primary,
+ * danger, cancel) without per-variant colour rules.
+ */
+export const Spinner = styled.span`
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  margin-right: 0.6rem;
+  vertical-align: -0.15em;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: admin-spin 0.6s linear infinite;
+
+  @keyframes admin-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: 1.5s;
+  }
+`;
+
+/**
+ * A button that shows a spinner and optional "working" label while busy.
+ *
+ * Wraps the plain <button> so every action in the admin area reports progress
+ * the same way, and guarantees the control is disabled while in flight.
+ */
+export const AdminActionButton = styled.button`
+  padding: 0.6rem 1.2rem;
+  font-size: 1.3rem;
+  font-family: inherit;
+  white-space: nowrap;
+  border: none;
+  border-radius: 2rem;
+  background-color: #016fb9;
+  color: #fff;
+  cursor: pointer;
+
+  &.danger {
+    background-color: #e31f71;
+  }
+
+  &.cancel {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: inherit;
+  }
+
+  &:disabled {
+    filter: brightness(0.6);
+    cursor: not-allowed;
+  }
+`;
+
 /** The profile editor's form grid. */
 export const AdminFormGrid = styled.form`
   display: grid;
   gap: 1.4rem;
-  max-width: 560px;
+  /* Two columns on wide screens so the panel uses the available width instead
+     of stranding a narrow form column beside empty space. */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  max-width: 900px;
   width: 100%;
 
+  /* Full-width rows (e.g. the save button). */
+  > .full {
+    grid-column: 1 / -1;
+  }
+
   @media (max-width: 640px) {
+    grid-template-columns: 1fr;
     max-width: none;
     gap: 1.1rem;
   }
 `;
 
-/** A plain-text toggle (e.g. "Show password"). */
-export const AdminTextButton = styled.button`
+/** A plain-text toggle (e.g. "Show password"). */export const AdminTextButton = styled.button`
   background: transparent;
   border: none;
   color: inherit;
@@ -679,4 +833,75 @@ export const AdminTextButton = styled.button`
   &:hover {
     opacity: 1;
   }
+`;
+
+/**
+ * Two-column metadata grid used by the job detail dialog.
+ *
+ * The previous detail view stacked every field in one narrow column, so the
+ * job description dominated and the metadata wasted the rest of the space.
+ * This lays the short fields out side by side and gives the description the
+ * full width underneath.
+ */
+export const AdminDetailGrid = styled.dl`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.4rem 2.4rem;
+  margin: 0 0 2.4rem;
+
+  > div {
+    min-width: 0;
+  }
+
+  dt,
+  strong {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    margin-bottom: 0.35rem;
+  }
+
+  dd {
+    margin: 0;
+    font-size: 1.4rem;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+  /* A field that should span every column (the job description). */
+  > .full {
+    grid-column: 1 / -1;
+  }
+
+  @media (max-width: 640px) {
+    gap: 1.1rem;
+    margin-bottom: 1.8rem;
+  }
+`;
+
+/**
+ * Scrollable, pre-wrapped text block for long content such as a job
+ * description or a resume document.
+ *
+ * Capped in height so one long field cannot push the dialog's actions off the
+ * screen; scrolls internally instead.
+ */
+export const AdminPre = styled.pre`
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: normal;
+  font-family: inherit;
+  font-size: 1.35rem;
+  line-height: 1.55;
+  margin: 0;
+  padding: 1.2rem 1.4rem;
+  max-height: 34rem;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.8rem;
+  -webkit-overflow-scrolling: touch;
 `;

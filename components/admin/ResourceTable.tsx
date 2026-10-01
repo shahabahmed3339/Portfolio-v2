@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import {
+  AdminActionButton,
   AdminFormField,
   AdminModalCard,
   AdminModalOverlay,
@@ -10,6 +11,7 @@ import {
   AdminTable,
   AdminTableScroll,
   AdminToolbar,
+  Spinner,
 } from "./styles";
 
 export type FieldType = "text" | "textarea" | "number" | "list" | "boolean";
@@ -94,6 +96,8 @@ export function ResourceTable({ resource, title, fields }: ResourceTableProps) {
   const [draft, setDraft] = useState<Row | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  /** Row ids with a delete in flight, so each button reports its own progress. */
+  const [deletingIds, setDeletingIds] = useState<string[]>([]);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -146,11 +150,15 @@ export function ResourceTable({ resource, title, fields }: ResourceTableProps) {
 
   async function handleDelete(row: Row) {
     if (!window.confirm(`Delete this ${title.toLowerCase()} item?`)) return;
+    setError("");
+    setDeletingIds((current) => [...new Set([...current, row.id])]);
     try {
       await jsonFetch(`/api/${resource}/${row.id}`, { method: "DELETE" });
       await load();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to delete");
+    } finally {
+      setDeletingIds((current) => current.filter((id) => id !== row.id));
     }
   }
 
@@ -163,13 +171,17 @@ export function ResourceTable({ resource, title, fields }: ResourceTableProps) {
       {error ? <AdminStatus style={{ color: "#e31f71" }}>{error}</AdminStatus> : null}
 
       <AdminToolbar>
-        <button type="button" onClick={openCreate}>
+        <AdminActionButton type="button" onClick={openCreate} disabled={loading}>
+          {loading ? <Spinner aria-hidden /> : null}
           + Add {title.replace(/s$/, "")}
-        </button>
+        </AdminActionButton>
       </AdminToolbar>
 
       {loading ? (
-        <AdminStatus>Loading...</AdminStatus>
+        <AdminStatus>
+          <Spinner aria-hidden />
+          Loading...
+        </AdminStatus>
       ) : rows.length === 0 ? (
         <AdminStatus>No items yet. Click “Add” to create one.</AdminStatus>
       ) : (
@@ -184,33 +196,60 @@ export function ResourceTable({ resource, title, fields }: ResourceTableProps) {
               </tr>
             </thead>
             <tbody>
-              {rows.map((row) => (
-                <tr key={row.id}>
-                  {tableFields.map((field) => (
-                    /* data-label is used as the row heading when the table
-                       collapses into cards on phone-sized screens. */
-                    <td key={field.name} data-label={field.label}>
-                      {renderCell(row[field.name])}
+              {rows.map((row) => {
+                const deleting = deletingIds.includes(row.id);
+                return (
+                  <tr key={row.id}>
+                    {tableFields.map((field) => {
+                      const value = row[field.name];
+                      /* Link-shaped columns render as a real link and are
+                         single-line clamped: a full URL is a long unbreakable
+                         token that would otherwise wrap over many lines and
+                         steal width from the columns that carry meaning. The
+                         full value stays available as a tooltip. */
+                      const isUrl = /url|link|github|live/i.test(field.label);
+                      return (
+                        /* data-label is used as the row heading when the table
+                           collapses into cards on phone-sized screens. */
+                        <td key={field.name} data-label={field.label}>
+                          {isUrl && typeof value === "string" && value ? (
+                            <a
+                              className="clamp"
+                              href={/^https?:\/\//i.test(value) ? value : `https://${value}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              title={value}
+                              style={{ display: "inline-block", maxWidth: "100%" }}
+                            >
+                              {value}
+                            </a>
+                          ) : (
+                            renderCell(value)
+                          )}
+                        </td>
+                      );
+                    })}
+                    <td className="actions">
+                      {/* Wrapper keeps the cell itself a table-cell so the row
+                          border stays aligned with the other columns. */}
+                      <div className="actions-inner">
+                        <AdminActionButton type="button" onClick={() => openEdit(row)} disabled={deleting}>
+                          Edit
+                        </AdminActionButton>
+                        <AdminActionButton
+                          type="button"
+                          className="danger"
+                          onClick={() => void handleDelete(row)}
+                          disabled={deleting}
+                        >
+                          {deleting ? <Spinner aria-hidden /> : null}
+                          {deleting ? "Deleting..." : "Delete"}
+                        </AdminActionButton>
+                      </div>
                     </td>
-                  ))}
-                  <td className="actions">
-                    {/* Wrapper keeps the cell itself a table-cell so the row
-                        border stays aligned with the other columns. */}
-                    <div className="actions-inner">
-                      <button type="button" onClick={() => openEdit(row)}>
-                        Edit
-                      </button>
-                      <button
-                        type="button"
-                        className="danger"
-                        onClick={() => handleDelete(row)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                  </tr>
+                );
+              })}
             </tbody>
           </AdminTable>
         </AdminTableScroll>
@@ -253,12 +292,18 @@ export function ResourceTable({ resource, title, fields }: ResourceTableProps) {
               ))}
 
               <div className="modal-actions">
-                <button type="button" className="cancel" onClick={() => setDraft(null)}>
+                <AdminActionButton
+                  type="button"
+                  className="cancel"
+                  onClick={() => setDraft(null)}
+                  disabled={saving}
+                >
                   Cancel
-                </button>
-                <button type="submit" disabled={saving}>
+                </AdminActionButton>
+                <AdminActionButton type="submit" disabled={saving}>
+                  {saving ? <Spinner aria-hidden /> : null}
                   {saving ? "Saving..." : "Save"}
-                </button>
+                </AdminActionButton>
               </div>
             </form>
           </AdminModalCard>

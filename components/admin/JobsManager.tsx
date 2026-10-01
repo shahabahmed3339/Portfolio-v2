@@ -2,14 +2,18 @@
 
 import { useCallback, useEffect, useState } from "react";
 import {
+  AdminActionButton,
+  AdminDetailGrid,
   AdminFormField,
   AdminModalCard,
   AdminModalOverlay,
   AdminPanel,
+  AdminPre,
   AdminStatus,
   AdminTable,
   AdminTableScroll,
   AdminToolbar,
+  Spinner,
 } from "./styles";
 
 /**
@@ -45,6 +49,12 @@ interface ResumeVersion {
   isPublished: boolean;
   isActive: boolean;
   createdAt: string;
+}
+
+/** Shape returned by /api/resume-versions/[id] when loading the document. */
+interface ResumeVersionDetail {
+  id: string;
+  resumeJson: unknown;
 }
 
 const EMPTY_DRAFT: Record<string, string> = {
@@ -95,6 +105,25 @@ export function JobsManager() {
   const [versionsLoading, setVersionsLoading] = useState(false);
   const [generating, setGenerating] = useState(false);
 
+  /** Job ids with a row-level action in flight (archive / delete / details). */
+  const [busyJobs, setBusyJobs] = useState<string[]>([]);
+  /** Resume version ids with an action in flight (view / publish / edit / delete). */
+  const [busyVersions, setBusyVersions] = useState<string[]>([]);
+  const [draftVersion, setDraftVersion] = useState<{ version: ResumeVersion; json: string } | null>(null);
+  const [savingVersionEdit, setSavingVersionEdit] = useState(false);
+
+  function setBusyJob(id: string, busy: boolean) {
+    setBusyJobs((current) =>
+      busy ? [...new Set([...current, id])] : current.filter((value) => value !== id),
+    );
+  }
+
+  function setBusyVersion(id: string, busy: boolean) {
+    setBusyVersions((current) =>
+      busy ? [...new Set([...current, id])] : current.filter((value) => value !== id),
+    );
+  }
+
   const load = useCallback(async () => {
     setLoading(true);
     setError("");
@@ -127,7 +156,12 @@ export function JobsManager() {
   async function openDetails(job: Job) {
     setSelected(job);
     setNotice("");
-    await loadVersions(job.id);
+    setBusyJob(job.id, true);
+    try {
+      await loadVersions(job.id);
+    } finally {
+      setBusyJob(job.id, false);
+    }
   }
 
   function openCreate() {
@@ -179,6 +213,9 @@ export function JobsManager() {
   }
 
   async function handleArchive(job: Job) {
+    setError("");
+    setNotice("");
+    setBusyJob(job.id, true);
     try {
       await jsonFetch(`/api/jobs/${job.id}`, {
         method: "PUT",
@@ -187,6 +224,8 @@ export function JobsManager() {
       await load();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to archive the job");
+    } finally {
+      setBusyJob(job.id, false);
     }
   }
 
@@ -198,12 +237,17 @@ export function JobsManager() {
     ) {
       return;
     }
+    setError("");
+    setNotice("");
+    setBusyJob(job.id, true);
     try {
       await jsonFetch(`/api/jobs/${job.id}`, { method: "DELETE" });
       if (selected?.id === job.id) setSelected(null);
       await load();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to delete the job");
+    } finally {
+      setBusyJob(job.id, false);
     }
   }
 
@@ -214,7 +258,7 @@ export function JobsManager() {
     try {
       const result = await jsonFetch(`/api/jobs/${job.id}/generate`, { method: "POST" });
       setNotice(
-        `Resume generated successfully — version ${result.version}. It is not published yet.`,
+        `Resume generated — version ${result.version}. It is viewable at /${result.slug} and is not the default yet.`,
       );
       await loadVersions(job.id);
       await load();
@@ -228,6 +272,8 @@ export function JobsManager() {
 
   async function handlePublish(version: ResumeVersion, action: "publish" | "unpublish") {
     setError("");
+    setNotice("");
+    setBusyVersion(version.id, true);
     try {
       await jsonFetch(`/api/resume-versions/${version.id}/publish`, {
         method: "POST",
@@ -236,11 +282,75 @@ export function JobsManager() {
       if (selected) await loadVersions(selected.id);
       setNotice(
         action === "publish"
-          ? `Version ${version.version} is now the live resume on the public portfolio.`
-          : `Version ${version.version} was unpublished.`,
+          ? `Version ${version.version} is now the default resume on the public portfolio.`
+          : `Version ${version.version} is no longer the default resume. It is still viewable at /${version.slug}.`,
       );
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to update publishing");
+    } finally {
+      setBusyVersion(version.id, false);
+    }
+  }
+
+  /** Loads the version's full document and opens it in the JSON editor. */
+  async function handleOpenVersionEdit(version: ResumeVersion) {
+    setError("");
+    setNotice("");
+    setBusyVersion(version.id, true);
+    try {
+      const data: ResumeVersionDetail = await jsonFetch(`/api/resume-versions/${version.id}`);
+      setDraftVersion({ version, json: JSON.stringify(data.resumeJson, null, 2) });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load the resume document");
+    } finally {
+      setBusyVersion(version.id, false);
+    }
+  }
+
+  async function handleSaveVersionEdit(event: React.FormEvent) {
+    event.preventDefault();
+    if (!draftVersion) return;
+
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(draftVersion.json);
+    } catch {
+      setError("The document is not valid JSON. Fix the syntax before saving.");
+      return;
+    }
+
+    setSavingVersionEdit(true);
+    setError("");
+    try {
+      await jsonFetch(`/api/resume-versions/${draftVersion.version.id}`, {
+        method: "PUT",
+        body: JSON.stringify(parsed),
+      });
+      const editedVersion = draftVersion.version.version;
+      setDraftVersion(null);
+      if (selected) await loadVersions(selected.id);
+      setNotice(`Version ${editedVersion} was updated.`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to save the resume version");
+    } finally {
+      setSavingVersionEdit(false);
+    }
+  }
+
+  async function handleDeleteVersion(version: ResumeVersion) {
+    if (!window.confirm(`Delete version ${version.version}? This cannot be undone.`)) return;
+    setError("");
+    setNotice("");
+    setBusyVersion(version.id, true);
+    try {
+      await jsonFetch(`/api/resume-versions/${version.id}`, { method: "DELETE" });
+      if (selected) await loadVersions(selected.id);
+      await load();
+      setNotice(`Version ${version.version} was deleted.`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to delete the resume version");
+    } finally {
+      setBusyVersion(version.id, false);
     }
   }
 
@@ -260,13 +370,17 @@ export function JobsManager() {
           />
           Show archived
         </label>
-        <button type="button" onClick={openCreate}>
+        <AdminActionButton type="button" onClick={openCreate} disabled={loading}>
+          {loading ? <Spinner aria-hidden /> : null}
           + Add job
-        </button>
+        </AdminActionButton>
       </AdminToolbar>
 
       {loading ? (
-        <AdminStatus>Loading...</AdminStatus>
+        <AdminStatus>
+          <Spinner aria-hidden />
+          Loading...
+        </AdminStatus>
       ) : jobs.length === 0 ? (
         <AdminStatus>No jobs yet. Click “Add job” to create one.</AdminStatus>
       ) : (
@@ -283,31 +397,50 @@ export function JobsManager() {
               </tr>
             </thead>
             <tbody>
-              {jobs.map((job) => (
-                <tr key={job.id} style={job.isArchived ? { opacity: 0.55 } : undefined}>
-                  <td data-label="Company">{job.companyName}</td>
-                  <td data-label="Job title">{job.jobTitle}</td>
-                  <td data-label="Location">{job.location || "—"}</td>
-                  <td data-label="Versions">{job._count?.resumeVersions ?? 0}</td>
-                  <td data-label="Created">{formatDate(job.createdAt)}</td>
-                  <td className="actions">
-                    <div className="actions-inner">
-                      <button type="button" onClick={() => void openDetails(job)}>
-                        Details
-                      </button>
-                      <button type="button" onClick={() => openEdit(job)}>
-                        Edit
-                      </button>
-                      <button type="button" onClick={() => void handleArchive(job)}>
-                        {job.isArchived ? "Restore" : "Archive"}
-                      </button>
-                      <button type="button" className="danger" onClick={() => void handleDelete(job)}>
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {jobs.map((job) => {
+                const busy = busyJobs.includes(job.id);
+                return (
+                  <tr key={job.id} style={job.isArchived ? { opacity: 0.55 } : undefined}>
+                    <td data-label="Company">{job.companyName}</td>
+                    <td data-label="Job title">{job.jobTitle}</td>
+                    <td data-label="Location">{job.location || "—"}</td>
+                    <td data-label="Versions">{job._count?.resumeVersions ?? 0}</td>
+                    <td data-label="Created">{formatDate(job.createdAt)}</td>
+                    <td className="actions">
+                      <div className="actions-inner">
+                        <AdminActionButton
+                          type="button"
+                          onClick={() => void openDetails(job)}
+                          disabled={busy}
+                        >
+                          {busy ? <Spinner aria-hidden /> : null}
+                          Details
+                        </AdminActionButton>
+                        <AdminActionButton type="button" onClick={() => openEdit(job)} disabled={busy}>
+                          Edit
+                        </AdminActionButton>
+                        <AdminActionButton
+                          type="button"
+                          onClick={() => void handleArchive(job)}
+                          disabled={busy}
+                        >
+                          {busy ? <Spinner aria-hidden /> : null}
+                          {busy ? "Working..." : job.isArchived ? "Restore" : "Archive"}
+                        </AdminActionButton>
+                        <AdminActionButton
+                          type="button"
+                          className="danger"
+                          onClick={() => void handleDelete(job)}
+                          disabled={busy}
+                        >
+                          {busy ? <Spinner aria-hidden /> : null}
+                          Delete
+                        </AdminActionButton>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </AdminTable>
         </AdminTableScroll>
@@ -315,105 +448,165 @@ export function JobsManager() {
 
       {selected ? (
         <AdminModalOverlay onClick={() => setSelected(null)}>
-          <AdminModalCard onClick={(e) => e.stopPropagation()}>
+          <AdminModalCard className="wide" onClick={(e) => e.stopPropagation()}>
             <h2>
               {selected.companyName} — {selected.jobTitle}
             </h2>
 
-            <dl style={{ display: "grid", gap: "0.6rem", marginBottom: "2rem", fontSize: "1.3rem" }}>
+            <AdminDetailGrid>
               <div>
-                <strong>Location:</strong> {selected.location || "—"}
+                <dt>Job title</dt>
+                <dd>{selected.jobTitle}</dd>
               </div>
               <div>
-                <strong>Created:</strong> {formatDate(selected.createdAt)}
+                <dt>Location</dt>
+                <dd>{selected.location || "—"}</dd>
               </div>
               <div>
-                <strong>Contact:</strong>{" "}
-                {[selected.contactName, selected.contactEmail, selected.contactPhone]
-                  .filter(Boolean)
-                  .join(" · ") || "—"}
+                <dt>Created</dt>
+                <dd>{formatDate(selected.createdAt)}</dd>
+              </div>
+              <div>
+                <dt>Contact</dt>
+                <dd>
+                  {[selected.contactName, selected.contactEmail, selected.contactPhone]
+                    .filter(Boolean)
+                    .join(" · ") || "—"}
+                </dd>
               </div>
               {selected.jobUrl ? (
                 <div>
-                  <strong>Job URL:</strong>{" "}
-                  <a href={selected.jobUrl} target="_blank" rel="noreferrer">
-                    {selected.jobUrl}
-                  </a>
+                  <dt>Job URL</dt>
+                  <dd>
+                    <a href={selected.jobUrl} target="_blank" rel="noreferrer">
+                      {selected.jobUrl}
+                    </a>
+                  </dd>
                 </div>
               ) : null}
-              <div>
-                <strong>Job description:</strong>
-                <pre style={{ whiteSpace: "pre-wrap", marginTop: "0.4rem", opacity: 0.85 }}>
-                  {selected.jobDescription}
-                </pre>
-              </div>
               {selected.notes ? (
                 <div>
-                  <strong>Notes:</strong> {selected.notes}
+                  <dt>Notes</dt>
+                  <dd>{selected.notes}</dd>
                 </div>
               ) : null}
-            </dl>
+              <div className="full">
+                <dt>Job description</dt>
+                <dd>
+                  <AdminPre>{selected.jobDescription}</AdminPre>
+                </dd>
+              </div>
+            </AdminDetailGrid>
 
             <h3 style={{ marginBottom: "1rem" }}>Resume versions</h3>
 
             {versionsLoading ? (
-              <AdminStatus>Loading versions...</AdminStatus>
+              <AdminStatus>
+                <Spinner aria-hidden />
+                Loading versions...
+              </AdminStatus>
             ) : versions.length === 0 ? (
               <AdminStatus>No resume versions yet for this job.</AdminStatus>
             ) : (
-              <AdminTable>
-                <thead>
-                  <tr>
-                    <th>Version</th>
-                    <th>Generated</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {versions.map((version) => (
-                    <tr key={version.id}>
-                      <td data-label="Version">Version {version.version}</td>
-                      <td data-label="Generated">{formatDate(version.createdAt)}</td>
-                      <td data-label="Status">
-                        {version.isActive ? "Active (live)" : version.isPublished ? "Published" : "Not published"}
-                      </td>
-                      <td className="actions">
-                        <div className="actions-inner">
-                          <button
-                            type="button"
-                            onClick={() => window.open(`/resume/${version.slug}`, "_blank")}
-                          >
-                            View
-                          </button>
-                          {version.isPublished ? (
-                            <button type="button" onClick={() => void handlePublish(version, "unpublish")}>
-                              Unpublish
-                            </button>
-                          ) : (
-                            <button type="button" onClick={() => void handlePublish(version, "publish")}>
-                              Publish
-                            </button>
-                          )}
-                        </div>
-                      </td>
+              <AdminTableScroll>
+                <AdminTable>
+                  <thead>
+                    <tr>
+                      <th>Version</th>
+                      <th>Generated</th>
+                      <th>Status</th>
+                      <th>URL</th>
+                      <th>Actions</th>
                     </tr>
-                  ))}
+                  </thead>
+                  <tbody>
+                    {versions.map((version) => {
+                      const busy = busyVersions.includes(version.id);
+                      return (
+                        <tr key={version.id}>
+                          <td data-label="Version">Version {version.version}</td>
+                          <td data-label="Generated">{formatDate(version.createdAt)}</td>
+                          <td data-label="Status">
+                            {version.isActive ? "Default (live)" : "Viewable"}
+                          </td>
+                          <td data-label="URL">
+                            <a href={`/${version.slug}`} target="_blank" rel="noreferrer">
+                              /{version.slug}
+                            </a>
+                          </td>
+                          <td className="actions">
+                            <div className="actions-inner">
+                              <AdminActionButton
+                                type="button"
+                                onClick={() => window.open(`/${version.slug}`, "_blank")}
+                                disabled={busy}
+                                title={`Open /${version.slug}`}
+                              >
+                                View
+                              </AdminActionButton>
+                            <AdminActionButton
+                              type="button"
+                              onClick={() => void handleOpenVersionEdit(version)}
+                              disabled={busy}
+                            >
+                              {busy ? <Spinner aria-hidden /> : null}
+                              Edit
+                            </AdminActionButton>
+                            {version.isActive ? (
+                              <AdminActionButton
+                                type="button"
+                                onClick={() => void handlePublish(version, "unpublish")}
+                                disabled={busy}
+                              >
+                                {busy ? <Spinner aria-hidden /> : null}
+                                {busy ? "Working..." : "Unset default"}
+                              </AdminActionButton>
+                            ) : (
+                              <AdminActionButton
+                                type="button"
+                                onClick={() => void handlePublish(version, "publish")}
+                                disabled={busy}
+                              >
+                                {busy ? <Spinner aria-hidden /> : null}
+                                {busy ? "Working..." : "Set as default"}
+                              </AdminActionButton>
+                            )}
+                            <AdminActionButton
+                              type="button"
+                              className="danger"
+                              onClick={() => void handleDeleteVersion(version)}
+                              disabled={busy}
+                            >
+                              {busy ? <Spinner aria-hidden /> : null}
+                              Delete
+                            </AdminActionButton>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
-              </AdminTable>
+                </AdminTable>
+              </AdminTableScroll>
             )}
 
             <div className="modal-actions">
-              <button type="button" className="cancel" onClick={() => setSelected(null)}>
+              <AdminActionButton
+                type="button"
+                className="cancel"
+                onClick={() => setSelected(null)}
+                disabled={generating}
+              >
                 Close
-              </button>
-              <button
+              </AdminActionButton>
+              <AdminActionButton
                 type="button"
                 disabled={generating}
                 onClick={() => void handleGenerate(selected)}
               >
+                {generating ? <Spinner aria-hidden /> : null}
                 {generating ? "Generating tailored resume..." : "Generate tailored resume"}
-              </button>
+              </AdminActionButton>
             </div>
           </AdminModalCard>
         </AdminModalOverlay>
@@ -465,12 +658,53 @@ export function JobsManager() {
               </AdminFormField>
 
               <div className="modal-actions">
-                <button type="button" className="cancel" onClick={() => setDraft(null)}>
+                <AdminActionButton
+                  type="button"
+                  className="cancel"
+                  onClick={() => setDraft(null)}
+                  disabled={saving}
+                >
                   Cancel
-                </button>
-                <button type="submit" disabled={saving}>
+                </AdminActionButton>
+                <AdminActionButton type="submit" disabled={saving}>
+                  {saving ? <Spinner aria-hidden /> : null}
                   {saving ? "Saving..." : "Save"}
-                </button>
+                </AdminActionButton>
+              </div>
+            </form>
+          </AdminModalCard>
+        </AdminModalOverlay>
+      ) : null}
+
+      {draftVersion ? (
+        <AdminModalOverlay onClick={() => setDraftVersion(null)}>
+          <AdminModalCard className="wide" onClick={(e) => e.stopPropagation()}>
+            <h2>Edit version {draftVersion.version.version}</h2>
+            <form onSubmit={handleSaveVersionEdit}>
+              <AdminFormField>
+                Resume document (JSON)
+                <textarea
+                  rows={18}
+                  value={draftVersion.json}
+                  spellCheck={false}
+                  onChange={(e) => setDraftVersion({ ...draftVersion, json: e.target.value })}
+                  style={{ fontFamily: "monospace", fontSize: "1.2rem", minHeight: "50vh" }}
+                />
+              </AdminFormField>
+
+              <div className="modal-actions">
+                <AdminActionButton
+                  type="button"
+                  className="cancel"
+                  onClick={() => setDraftVersion(null)}
+                  disabled={savingVersionEdit}
+                >
+                  Cancel
+                </AdminActionButton>
+                <AdminActionButton type="submit" disabled={savingVersionEdit}>
+                  {savingVersionEdit ? <Spinner aria-hidden /> : null}
+                  {savingVersionEdit ? "Saving..." : "Save changes"}
+                </AdminActionButton>
               </div>
             </form>
           </AdminModalCard>

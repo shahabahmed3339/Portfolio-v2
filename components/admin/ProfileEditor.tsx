@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AdminButton, AdminFormField, AdminFormGrid, AdminPanel, AdminStatus } from "./styles";
+import {
+  AdminButton,
+  AdminFormField,
+  AdminFormGrid,
+  AdminPanel,
+  AdminStatus,
+  Spinner,
+} from "./styles";
 
 const FIELDS: { name: string; label: string; number?: boolean }[] = [
   { name: "name", label: "Name" },
@@ -65,7 +72,10 @@ export function ProfileEditor() {
   if (loading) {
     return (
       <AdminPanel>
-        <AdminStatus>Loading profile...</AdminStatus>
+        <AdminStatus>
+          <Spinner aria-hidden />
+          Loading profile...
+        </AdminStatus>
       </AdminPanel>
     );
   }
@@ -87,8 +97,9 @@ export function ProfileEditor() {
             />
           </AdminFormField>
         ))}
-        <div>
+        <div className="full">
           <AdminButton type="submit" disabled={saving}>
+            {saving ? <Spinner aria-hidden /> : null}
             {saving ? "Saving..." : "Save profile"}
           </AdminButton>
         </div>

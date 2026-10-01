@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { ClientOnlySite } from "@/components/ClientOnlySite";
-import { getPublishedResumeBySlug } from "@/server/services/resume.service";
+import { getResumeVersionBySlug } from "@/server/services/resume.service";
 import { resumeSchema } from "@/server/resume/resume-schema";
 
 export const dynamic = "force-dynamic";
@@ -11,14 +11,18 @@ interface PageProps {
 }
 
 /**
- * Public URL for a tailored resume version, e.g. /resume/acme-senior-frontend-developer-v2.
+ * Public URL for a tailored resume version, e.g. /<jobId>.
  *
- * Only versions the admin has explicitly published resolve here. Unpublished
- * slugs, the canonical resume, and unknown slugs all return 404 - a tailored
- * resume is never publicly reachable until it is published.
+ * Every tailored version resolves here as soon as it is generated, so a resume
+ * can be shared before it is chosen as the portfolio's default. Only the
+ * canonical resume and unknown slugs return 404.
+ *
+ * This is a top-level catch-all segment: it sits alongside the fixed routes
+ * (/admin, /login, /api) which Next resolves first because static segments take
+ * precedence over a dynamic one.
  */
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const found = await getPublishedResumeBySlug(params.slug).catch(() => null);
+  const found = await getResumeVersionBySlug(params.slug).catch(() => null);
   if (!found) return { title: "Resume not found" };
 
   const { resume, version } = found;
@@ -29,7 +33,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function PublicResumePage({ params }: PageProps) {
-  const found = await getPublishedResumeBySlug(params.slug).catch(() => null);
+  const found = await getResumeVersionBySlug(params.slug).catch(() => null);
   if (!found) notFound();
 
   const parsed = resumeSchema.safeParse(found.resume);

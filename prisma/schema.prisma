@@ -274,7 +274,9 @@ model ResumeVersion {
   // 1-based, scoped to the job (canonical resume is always 1).
   version    Int      @default(1)
   slug       String   @unique
-  // Whether this version is reachable at its public /resume/<slug> URL.
+  // Whether this version is the portfolio's default resume. Reachability at
+  // /<slug> is independent of this flag: every tailored version resolves at its
+  // slug as soon as it is generated.
   isPublished Boolean @default(false)
   // Provenance for debugging a generated document (null for canonical).
   model      String?

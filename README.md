@@ -31,7 +31,7 @@ Expense-Tracker project.
 | Tailor prompt   | `server/ai/resume-tailor.ts`                                         |
 | AI client       | `server/ai/ai-client.ts` (Gemini + Groq, with fallback)              |
 | Resume service  | `server/services/resume.service.ts`                                  |
-| Public resume   | `app/resume/[slug]/page.tsx`                                         |
+| Public resume   | `app/[slug]/page.tsx`                                                |
 
 ### Content model ↔ `data.js`
 
@@ -119,18 +119,23 @@ Canonical resume                    (ResumeVersion.jobId = NULL)
 2. Open **Details** on a job and click **Generate tailored resume**.
 3. The server validates the job, loads the canonical resume from `src/data.js`,
    calls the configured AI provider, validates the response against the resume
-   schema, and saves a **new, unpublished** resume version.
-4. Review the versions list (version number, generated date, published state).
-5. Click **Publish** on the version you want live. Publishing sets it as the
-   active portfolio resume *and* makes `/resume/<slug>` publicly reachable.
+   schema, and saves a **new** resume version. It is immediately viewable at
+   `/<jobId>` but does **not** become the portfolio's default.
+4. Review the versions list (version number, generated date, default state).
+5. Click **Set as default** on the version you want live. This makes it the
+   active portfolio resume; it does not affect whether the version is viewable.
 
-A newly generated resume is **never** published automatically.
+A newly generated resume never becomes the default automatically. Generating,
+being viewable and being the default are three separate things.
+
+Each version can also be **edited** (its stored document, re-validated against
+the resume schema before saving) and **deleted**.
 
 ### Public resume resolution
 
 ```text
-published tailored resume exists -> that resume
-otherwise                        -> canonical resume from src/data.js
+version explicitly set as default -> that resume
+otherwise                         -> canonical resume from src/data.js
 ```
 
 `getActiveResume()` in `server/services/resume.service.ts` implements this. It
@@ -139,17 +144,17 @@ the canonical resume is served rather than breaking the site.
 
 ### Public URLs
 
-Each published version has a stable, server-generated slug:
+Each tailored version has a stable, server-generated slug derived from the job
+id, so every version of a job shares one short URL:
 
 ```text
-/resume/acme-senior-frontend-developer-v1
-/resume/acme-senior-frontend-developer-v2
+/<jobId>
 ```
 
-Slugs are derived from company + job title + version, are URL-safe, handle
-duplicate job titles via a numeric suffix, and never expose database ids.
-Unpublished slugs return 404. The canonical resume is not reachable by slug — it
-is served at the root portfolio only.
+Slugs are URL-safe and never expose free text. A tailored resume is viewable at
+its slug as soon as it is generated; only the canonical resume and unknown slugs
+return 404. The canonical resume is not reachable by slug — it is served at the
+root portfolio only.
 
 ### Environment
 

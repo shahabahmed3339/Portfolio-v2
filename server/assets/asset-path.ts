@@ -7,7 +7,8 @@
  * against the *current directory*:
  *
  *   at "/"                 -> /assets/x.svg        (works by accident)
- *   at "/resume/acme-v1"   -> /resume/assets/x.svg (404 -> broken image)
+ *   at "/acme-v1"          -> /assets/x.svg        (root-relative, always correct)
+ *   at "/acme-v1"          -> /acme-v1/assets/x.svg (bare relative -> 404)
  *
  * `src/data.js` ships mixed styles (the social link icons are written without
  * a leading slash), and rows edited through the admin panel can be too, so

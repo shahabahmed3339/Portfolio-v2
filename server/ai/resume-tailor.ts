@@ -10,7 +10,7 @@ import { RESUME_SHAPE_DESCRIPTION } from "@/server/resume/resume-schema";
  * and wording*, never *facts*.
  */
 
-export const PROMPT_VERSION = "resume-tailor/v1";
+export const PROMPT_VERSION = "resume-tailor/v2";
 
 /** Bump PROMPT_VERSION whenever the wording below changes materially. */
 export interface TailorPromptInput {
@@ -28,7 +28,12 @@ speaks directly to one specific job description, without ever inventing anything
 
 You are NOT a resume writer and NOT a career coach. You do not add qualifications.
 
-Return ONLY a single JSON object. No markdown fences, no commentary, no explanation.`;
+Return ONLY a single JSON object. No markdown fences, no commentary, no explanation.
+
+Every string you write is rendered as PLAIN TEXT. Do not use markdown or any other
+formatting syntax anywhere in your output: no **bold**, no *italics*, no _underscores_,
+no backticks, no "#" headings, no leading "-" or "*" bullet characters, and no
+[links](url). Write ordinary sentences only.`;
 
 const buildRules = () => `ABSOLUTE RULES - violating any of these makes your output unusable:
 

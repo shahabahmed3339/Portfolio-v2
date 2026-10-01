@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/server/db/client";
 import { getCanonicalResume, getCanonicalResumeJson } from "@/server/resume/canonical-resume";
+import { normalizeResumeText } from "@/server/resume/plain-text";
 import { resumeSchema, type Resume } from "@/server/resume/resume-schema";
 import { jobSlugBase, resumeVersionSlugBase, uniqueSlug } from "@/server/resume/slug";
 
@@ -177,10 +178,11 @@ export async function createResumeVersion(params: {
   });
   const nextVersion = (latest?.version ?? 0) + 1;
 
-  const slug = await uniqueSlug(
-    resumeVersionSlugBase(companyName, jobTitle, nextVersion),
-    (candidate: string) =>
-      prisma.resumeVersion.findUnique({ where: { slug: candidate } }).then(Boolean),
+  // The slug is derived from the job id, so every version of the same job
+  // resolves at the same short URL (/<jobId>). `uniqueSlug` still guards
+  // the (practically impossible) case of an id already being taken.
+  const slug = await uniqueSlug(resumeVersionSlugBase(jobId), (candidate: string) =>
+    prisma.resumeVersion.findUnique({ where: { slug: candidate } }).then(Boolean),
   );
 
   return prisma.resumeVersion.create({
@@ -190,8 +192,10 @@ export async function createResumeVersion(params: {
       status: params.status ?? "GENERATED",
       version: nextVersion,
       slug,
-      // Newly generated resumes are deliberately NOT published.
-      isPublished: false,
+      // Reachable at /<slug> immediately, but deliberately NOT made the
+      // active/default resume. The portfolio only switches to a tailored
+      // resume when the admin explicitly publishes it.
+      isPublished: true,
       model: params.model ?? null,
       source: params.promptVersion ?? null,
     },
@@ -217,11 +221,10 @@ export async function getActiveResumeVersion() {
 }
 
 /**
- * Marks a version as the one the public portfolio should display.
+ * Makes a version the resume the public portfolio displays by default.
  *
- * `isPublished` on the version controls whether its own /resume/<slug> URL is
- * reachable; the AppSetting controls which document the portfolio renders.
- * Publishing a version sets both, so "Publish" is a single, obvious action.
+ * Every tailored version is already reachable at /<slug>; this is the
+ * separate, explicit step that also swaps it in as the default resume.
  */
 export async function publishResumeVersion(id: string) {
   const version = await prisma.resumeVersion.findUnique({ where: { id } });
@@ -239,7 +242,13 @@ export async function publishResumeVersion(id: string) {
   return prisma.resumeVersion.findUnique({ where: { id } });
 }
 
-/** Removes a version's public URL. Does not affect the canonical resume. */
+/**
+ * Stops a version being the default resume.
+ *
+ * The version stays reachable at /<slug> - only the portfolio's default
+ * view changes. Callers that want to remove the document entirely should use
+ * `deleteResumeVersion` instead.
+ */
 export async function unpublishResumeVersion(id: string) {
   const version = await prisma.resumeVersion.findUnique({ where: { id } });
   if (!version) throw new Error("Resume version not found");
@@ -259,6 +268,60 @@ export async function unpublishResumeVersion(id: string) {
 /** Explicitly returns the public portfolio to the canonical resume. */
 export async function resetActiveResumeToCanonical() {
   await prisma.appSetting.deleteMany({ where: { key: ACTIVE_RESUME_SETTING_KEY } });
+}
+
+// ---------------------------------------------------------------------------
+// Editing / deleting a version
+// ---------------------------------------------------------------------------
+
+/**
+ * Replaces the stored document of an existing version.
+ *
+ * Only a structurally valid resume is accepted. The version number, slug and
+ * job association are left untouched so shared URLs keep resolving to the same
+ * version, and the active default is unaffected.
+ */
+export async function updateResumeVersion(id: string, resumeJson: unknown) {
+  const existing = await prisma.resumeVersion.findUnique({ where: { id } });
+  if (!existing) throw new Error("Resume version not found");
+  if (existing.jobId === null) {
+    throw new Error("The canonical resume cannot be edited here");
+  }
+
+  const parsed = resumeSchema.safeParse(resumeJson);
+  if (!parsed.success) {
+    throw new Error(
+      `Refusing to save an invalid resume document: ${JSON.stringify(parsed.error.flatten())}`,
+    );
+  }
+
+  // Manual edits go through the same plain-text normalisation as generated
+  // content, so an admin pasting markdown does not reintroduce the problem.
+  return prisma.resumeVersion.update({
+    where: { id },
+    data: { resumeJson: normalizeResumeText(parsed.data) as unknown as Prisma.InputJsonValue },
+  });
+}
+
+/**
+ * Deletes a tailored resume version.
+ *
+ * If the version was the active default, the pointer is cleared so the
+ * portfolio falls back to the canonical resume instead of a dangling id.
+ */
+export async function deleteResumeVersion(id: string) {
+  const existing = await prisma.resumeVersion.findUnique({ where: { id } });
+  if (!existing) throw new Error("Resume version not found");
+  if (existing.jobId === null) throw new Error("The canonical resume cannot be deleted");
+
+  const activeId = await getActiveResumeVersionId();
+
+  await prisma.$transaction([
+    prisma.resumeVersion.delete({ where: { id } }),
+    ...(activeId === id
+      ? [prisma.appSetting.deleteMany({ where: { key: ACTIVE_RESUME_SETTING_KEY } })]
+      : []),
+  ]);
 }
 
 // ---------------------------------------------------------------------------
@@ -293,7 +356,7 @@ export async function getActiveResume(): Promise<ActiveResume> {
       const parsed = resumeSchema.safeParse(active.resumeJson);
       if (parsed.success) {
         return {
-          resume: parsed.data,
+          resume: normalizeResumeText(parsed.data),
           kind: "version",
           versionId: active.id,
           slug: active.slug,
@@ -315,23 +378,27 @@ export async function getActiveResume(): Promise<ActiveResume> {
 // ---------------------------------------------------------------------------
 
 /**
- * Looks up a resume version by its public slug.
+ * Looks up a resume version by its public slug (/<slug>).
  *
- * Only published versions are returned, and the canonical resume is never
+ * Every tailored version is reachable as soon as it is generated, so this does
+ * not filter on `isPublished`: that flag only records which version is the
+ * active/default one on the portfolio. The canonical resume is still never
  * reachable by slug - it is served at the root portfolio only.
  */
-export async function getPublishedResumeBySlug(slug: string) {
+export async function getResumeVersionBySlug(slug: string) {
   const row = await prisma.resumeVersion.findUnique({
     where: { slug },
     include: { job: { select: { companyName: true, jobTitle: true } } },
   });
 
-  if (!row || !row.isPublished || row.jobId === null) return null;
+  if (!row || row.jobId === null) return null;
 
   const parsed = resumeSchema.safeParse(row.resumeJson);
   if (!parsed.success) return null;
 
-  return { version: row, resume: parsed.data };
+  // Normalised on read so versions generated before the plain-text rule was
+  // introduced render without markdown, with no regeneration required.
+  return { version: row, resume: normalizeResumeText(parsed.data) };
 }
 
 // ---------------------------------------------------------------------------

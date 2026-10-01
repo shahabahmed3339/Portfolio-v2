@@ -87,10 +87,10 @@ export async function getCanonicalResume(): Promise<Resume> {
 /**
  * Rewrites every asset path in the resume data to root-relative form.
  *
- * Applied once, when the resume is loaded, so both the public `/resume/<slug>`
- * page and every tailored version render the same images. Without this, the
- * relative paths in `src/data.js` (e.g. `assets/linkedin.svg`) resolve against
- * the versioned URL and 404.
+ * Applied once, when the resume is loaded, so both the root portfolio page and
+ * every tailored resume served at /<slug> render the same images. Without this,
+ * the relative paths in `src/data.js` (e.g. `assets/linkedin.svg`) resolve
+ * against the versioned URL and 404.
  */
 function normalizeAssetPaths(raw: Record<string, any>): Record<string, any> {
   const head = isObject(raw.head) ? raw.head : {};
